@@ -11,15 +11,8 @@ export default {
 
     theme: {
         extend: {
-            colors: {
-                primary: '#F1F0E8', //based color
-                secondary: '#ADC4CE', //second color (for the box)
-                customButton: '#96B6C5', //for button
-                customHover: '#96B6C5', //hover home button
-            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-                dmsans: ['DM Sans', 'sans-serif'],
             },
         },
     },
