@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'UriSphynx Ticket') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -15,10 +15,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-primary font-dmsans text-gray-900 antialiased">
-    <div class="min-h-screen mx-auto max-w-4xl px-4 py-10">
-        <div class="bg-white shadow-md rounded-xl p-8">
+    <div class="min-h-screen mx-auto max-w-full pb-10">
             {{ $slot }}
-        </div>
     </div>
 </body>
 </html>
