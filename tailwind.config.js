@@ -17,6 +17,8 @@ export default {
                 secondary: '#ADC4CE', //second color (for the box)
                 customButton: '#96B6C5', //for button
                 customHover: '#96B6C5', //hover home button
+                basetext: '#303030', //base text color
+                blacktext: '#1E1E1E', //darker text
             },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],

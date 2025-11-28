@@ -1,8 +1,26 @@
 <x-guest-layout>
     <div class="w-full flex justify-center mt-0">
         <div class="max-w-[1900px] w-full h-[600px] p-10 rounded-[70px] bg-secondary shadow-lg relative">
-            
-            <img class="absolute rounded-[29.273px] w-[592px] h-[350px] top-[150px] left-10" src="{{ asset('bp.jpg') }}" alt="">
+            <img class="absolute rounded-[29.273px] w-[592px] h-[380px] top-[120px] left-10" src="{{ asset('h2h.jpeg') }}" alt="">
+            <div class="absolute right-10 top-[180px] text-basetext font-bold text-[48px] leading-[56px] flex flex-col gap-6">
+                <h1>Transaksi aman,</h1>
+            <span>nonton konser nyaman</span>
+            </div>
+            <div class="absolute left-[700px] bottom-10 top-[350px] w-[550px] text-basetext font-normal text-[18px] leading-[28px]">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit labore placeat minima nemo eaque animi, delectus molestias saepe in porro aliquam voluptatibus sint, alias ratione quasi pariatur? Ad, optio eum?</p>
+            </div>
+            <div class="absolute bottom-10 right-[200px] flex gap-4">
+    <!-- tombol putih -->
+    <button class="bg-white hover:bg-customHover text-blacktext font-semibold py-3 px-6 rounded-[36.55px] shadow-md">
+        Get Started
+    </button>
+
+    <!-- tombol biru -->
+    <button class="bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center gap-2 shadow-md">
+        Sign in Now
+        <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]" alt="icon">
+    </button>
+</div>
         </div>
     </div>
     <x-landing.steps>
