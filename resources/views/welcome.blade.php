@@ -23,7 +23,18 @@
 </div>
         </div>
     </div>
+    <div class="text-center mt-20 text-4xl font-bold text-blacktext">
+        <h1>UriSphynx Ticket</h1>
+        <p class="mt-8 text-[20px] font-normal text-basetext">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis harum quos sint cum eaque nobis molestiae nisi, assumenda magni consequuntur fuga quia asperiores excepturi id vitae, voluptatibus dolorum rem nostrum?</p>
+    </div>
+    <x-landing.concertcard>
+        </x-landing.concertcard>
+    <div class="text-center mt-[150px] text-4xl font-bold text-blacktext">
+        <h1>Seating Plan</h1>
+    </div>
+    <div class="text-center mt-[150px] text-4xl font-bold text-blacktext">
+        <h1>How to Purchase a Ticket?</h1>
+    </div>
     <x-landing.steps>
-        
     </x-landing.steps>
 </x-guest-layout>
