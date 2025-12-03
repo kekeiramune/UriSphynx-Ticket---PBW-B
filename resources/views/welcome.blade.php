@@ -80,4 +80,11 @@
     <x-landing.steps>
     </x-landing.steps>
     </div>
+    <x-footer>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </x-footer>
 </x-guest-layout>
