@@ -18,5 +18,6 @@
     <div class="min-h-screen mx-auto max-w-full pb-10 bg-primary">
             {{ $slot }}
     </div>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </body>
 </html>

@@ -2,6 +2,7 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <x-logpage.container1>
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -48,5 +49,6 @@
                 {{ __('Register') }}
             </x-primary-button>
         </div>
+</x-logpage.container1>
     </form>
 </x-guest-layout>
