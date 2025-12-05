@@ -1,5 +1,5 @@
 <div class="relative p-10 mt-10">
-    <div class="relative flex gap-10 justify-center mt-10 mb-10">
+    <div class="relative flex gap-10 justify-center mt-10 mb-5">
         <!-- Step 1 -->
         <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
             <h1 class="text-5xl text-center font-bold mb-4">01</h1>
