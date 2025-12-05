@@ -54,7 +54,7 @@
     <!-- tombol biru -->
      <div class="mt-16 mb-3">
          <button class="bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center gap-2 shadow-md">
-        Sign in Now
+        <a href="{{ route('login') }}">Sign in Now</a>
         <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]" alt="icon">
     </button>
      </div>
