@@ -71,20 +71,23 @@
     <div class="text-center mt-[150px] text-4xl font-bold text-blacktext">
         <h1>Seating Plan</h1>
     </div>
-    <div class="w-full flex justify-center mt-10 mb-20">
+    <div class="w-full flex justify-center mt-10 mb-10">
         <img src="{{ asset('seating.jpg') }}" alt="">
     </div>
-    <div class="text-center mt-[150px] text-4xl font-bold text-blacktext">
+    <div class="text-center text-4xl font-bold text-blacktext">
         <h1>How to Purchase a Ticket?</h1>
     </div>
     <x-landing.steps>
     </x-landing.steps>
     </div>
     <x-footer>
-        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+        <div class="flex flex-col absolute right-[100px] md:flex-row items-center justify-center gap-12 p-12">
             <a href="#">Home</a>
             <a href="#">About</a>
             <a href="#">Contact</a>
+            <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('fb.svg') }}" alt=""></a>
+            <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('insta.svg') }}" alt=""></a>
+            <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('twit.svg') }}" alt=""></a>
         </div>
     </x-footer>
 </x-guest-layout>
