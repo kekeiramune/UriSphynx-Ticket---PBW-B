@@ -1,4 +1,4 @@
-<div class="relative top-[400px]  flex gap-6 mt-10 justify-center">
+<div class="relative mt-10  flex gap-6 mt-10 justify-center">
     <div class="w-[300px] h-[400px] bg-white rounded-[24px] flex flex-col items-center justify-center">
         <img src="{{ asset('illit.svg') }}" alt="">
         <h1 class="font-bold text-[#2C2C2C] text-xl mt-5">ILLIT</h1>
