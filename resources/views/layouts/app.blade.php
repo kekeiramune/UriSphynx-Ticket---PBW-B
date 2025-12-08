@@ -22,5 +22,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <script src="//unpkg.com/alpinejs" defer></script>
     </body>
 </html>
