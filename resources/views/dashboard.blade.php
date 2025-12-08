@@ -25,8 +25,6 @@
         <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
     </div>
 </div>
-
-
     <!-- SEARCH BAR -->
     <x-slot:search>
     <div class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
@@ -37,7 +35,36 @@
         class="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none font-dmsans text-blacktext"
     />
 </div>
+
+<!-- PROFILE DROPDOWN -->
+<div x-data="{ openProfile: false }" class="relative ml-auto">
+    <button @click="openProfile = !openProfile" class="flex items-center gap-2">
+        <img
+            src="{{ asset('profile.png') }}"
+            alt="Profile"
+            class="w-9 h-9 rounded-full object-cover"
+        />
+        <span>{{ Auth::user()->name }}</span>
+    </button>
+
+    <div
+        x-show="openProfile"
+        x-transition
+        @click.away="openProfile = false"
+        class="absolute right-0 bg-white shadow-lg rounded-lg mt-2 p-3 w-44 z-50 origin-top"
+    >
+        <a href="#" class=""><img src="{{ asset('profile.svg') }}" alt=""></a>
+        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Settings</a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded">
+                Logout
+            </button>
+        </form>
+    </div>
+</div>
 </x-slot:search>
+
 </x-navbar>
 <div class="relative gap-4">
     <h1 class="absolute top-[230px] font-semibold text-3xl left-[90px]">Welcome back, </h1>

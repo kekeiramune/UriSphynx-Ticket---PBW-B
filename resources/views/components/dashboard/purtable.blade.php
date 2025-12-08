@@ -12,15 +12,16 @@
   <tbody>
     <tr>
       <td class="border px-4 py-2">Dummy 1</td>
-      <td class="border px-4 py-2">Dummy2@gmail.com</td>
-      <td class="border px-4 py-2">Dummy3</td>
-      <td class="border px-4 py-2">Dummy4</td>
+      <td class="border px-4 py-2">1-02-2004</td>
+      <td class="border px-4 py-2">1200000</td>
+      <td class="border px-4 py-2">Paid</td>
     </tr>
 
     <tr class="bg-gray-50">
-      <td class="border px-4 py-2">Aoi</td>
-      <td class="border px-4 py-2">aoi@example.com</td>
-      <td class="border px-4 py-2">Guest</td>
+      <td class="border px-4 py-2">Dummy 2</td>
+      <td class="border px-4 py-2">16-04-2026</td>
+      <td class="border px-4 py-2">1500000</td>
+      <td class="border px-4 py-2">Pending</td>
     </tr>
   </tbody>
 </table>
