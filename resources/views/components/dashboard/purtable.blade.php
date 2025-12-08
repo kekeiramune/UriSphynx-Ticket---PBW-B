@@ -1,4 +1,4 @@
-<div class="mt-10 max-w-6xl mx-auto px-6">
+<div class="mt-10 max-w-6xl mb-10 mx-auto px-6">
     <table class="w-full border-collapse rounded-[24px] overflow-hidden">
   <thead>
     <tr class="bg-gray-100">

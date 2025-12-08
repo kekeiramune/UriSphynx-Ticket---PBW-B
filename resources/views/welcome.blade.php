@@ -1,9 +1,10 @@
 <x-guest-layout>
+    <div x-data="{ notifOpen: false }">
     <div class="w-full flex justify-center">
         <div class="max-w-[1900px] w-full h-[650px] p-10 rounded-[70px] bg-secondary shadow-lg relative">
             <x-navbar>
     <!-- LEFT MENU -->
-    <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="#">Home</a>
+    <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="{{ route('home') }}">Home</a>
     <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="#">Seating</a>
     <div x-data="{ open: false }" class="relative">
     <button @click="open = !open" class="flex items-center gap-1">
@@ -21,6 +22,82 @@
         <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
     </div>
 </div>
+
+
+<x-slot:right>
+<div class="flex justify-end gap-5 text-xl">
+    <button 
+    @click="window.dispatchEvent(new CustomEvent('notif-open'))"
+    >
+    <img class="w-8 h-8 relative" src="{{ asset('notif.svg') }}" alt="">
+</button>
+
+<!-- NOTIFICATION DROPDOWN -->
+<div 
+    x-data="{ open: false }"
+    @notif-open.window="open = true"
+    @notif-close.window="open = false"
+    x-show="open"
+    class="fixed top-20 right-10 w-80 bg-white shadow-xl rounded-2xl p-5 z-[999] border"
+>
+    <h2 class="font-semibold text-lg mb-3">Notifications</h2>
+
+    <div class="space-y-3 max-h-72 overflow-auto">
+        <div class="p-3 bg-gray-100 rounded-lg">
+            <p>Your favorite group just announced a new concert!</p>
+        </div>
+
+        <div class="p-3 bg-gray-100 rounded-lg">
+            <p>Your payment is being processed…</p>
+        </div>
+
+        <div class="p-3 bg-gray-100 rounded-lg">
+            <p>Your ticket is confirmed!</p>
+        </div>
+    </div>
+
+    <button
+     
+        class="mt-4 w-full bg-secondary text-white py-2 rounded-lg"
+        @click="open = false"
+    >
+        Close
+    </button>
+</div>
+
+    <!-- PROFILE DROPDOWN -->
+<div x-data="{ openProfile: false }" class="relative ml-auto">
+    <button @click="openProfile = !openProfile" class="flex items-center gap-2">
+        <img
+            src="{{ asset('profile.svg') }}"
+            alt=""
+            class="w-9 h-9 rounded-full object-cover top-full"
+        />
+        <span>
+            @if(Auth::check())
+            {{ Auth::user()->name }}
+            @endif
+        </span>
+    </button>
+
+    <div
+        x-show="openProfile"
+        x-transition
+        @click.away="openProfile = false"
+        class="absolute right-0 bg-white shadow-lg rounded-lg mt-2 p-3 w-44 z-50 origin-top"
+    >
+        <a href="#" class=""></a>
+        <a href="{{ route('dashboard') }}" class="block px-3 py-2 hover:bg-gray-100 rounded">Dashboard</a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded">
+                Logout
+            </button>
+        </form>
+    </div>
+</div>
+</div>
+</x-slot:right>
 
 
     <!-- SEARCH BAR -->
@@ -82,7 +159,7 @@
     </div>
     <x-footer>
         <div class="flex flex-col absolute right-[100px] md:flex-row items-center justify-center gap-12 p-12">
-            <a href="#">Home</a>
+            <a href="{{ route('home') }}">Home</a>
             <a href="#">About</a>
             <a href="#">Contact</a>
             <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('fb.svg') }}" alt=""></a>
@@ -90,4 +167,15 @@
             <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('twit.svg') }}" alt=""></a>
         </div>
     </x-footer>
+
+    <script>
+    document.addEventListener('alpine:init', () => {
+        @if(session('notif') === 'open')
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('notif-open'));
+            }, 10); // beri waktu alpine hidup
+        @endif
+    });
+</script>
+</div>
 </x-guest-layout>
