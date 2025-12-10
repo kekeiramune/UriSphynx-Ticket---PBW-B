@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('category', function () {
+    return view('category');
+})->name('category');
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
