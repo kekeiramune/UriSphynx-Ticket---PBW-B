@@ -28,6 +28,18 @@
 
         <x-logpage.container1>
             <h1 class="text-4xl font-semibold text-white flex justify-center p-6">REGISTER</h1>
+        <div class="mt-4">
+            <div class="absolute left-10 top-[155px] -translate-y-1/2">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.49219 10.2266C4.18229 9.53906 5.80078 9.19531 7.34766 9.19531C8.89453 9.19531 10.4987 9.53906 12.1602 10.2266C13.8503 10.8854 14.6953 11.7591 14.6953 12.8477V14.6953H0V12.8477C0 11.7591 0.830729 10.8854 2.49219 10.2266ZM9.92578 6.27344C9.20964 6.98958 8.35026 7.34766 7.34766 7.34766C6.34505 7.34766 5.48568 6.98958 4.76953 6.27344C4.05339 5.55729 3.69531 4.69792 3.69531 3.69531C3.69531 2.69271 4.05339 1.83333 4.76953 1.11719C5.48568 0.372396 6.34505 0 7.34766 0C8.35026 0 9.20964 0.372396 9.92578 1.11719C10.6419 1.83333 11 2.69271 11 3.69531C11 4.69792 10.6419 5.55729 9.92578 6.27344Z" fill="#0E4375"/>
+                </svg>
+            </div>
+            <x-text-input id="name" class="block mt-1 w-full placeholder-[#0E4375] pl-12" placeholder="Masukkan Nama"
+                            type="name"
+                            name="name"
+                            />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
         <!-- Email Address -->
         <div class="relative mt-4">
             <div class="absolute left-4 top-1/2 -translate-y-1/2">
