@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-guest-layout>
     <div x-data="{ notifOpen: false }">
     <div class="w-full flex justify-center">
         <div class="max-w-[1900px] w-full h-[650px] p-10 rounded-[70px] bg-secondary shadow-lg relative">
@@ -138,25 +139,14 @@
 </div>
         </div>
     </div>
-    <div class="text-center mt-20 text-4xl font-bold text-blacktext">
-        <h1>UriSphynx Ticket</h1>
-        <p class="mt-8 text-[20px] font-normal text-basetext">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis harum quos sint cum eaque nobis molestiae nisi, assumenda magni consequuntur fuga quia asperiores excepturi id vitae, voluptatibus dolorum rem nostrum?</p>
+    <div class="text-center mb-8 mt-[100px] text-4xl font-bold text-blacktext">
+        <h1>Concert Name</h1>
+    <p>Location - Date</p>
     </div>
-    <x-landing.concertcard>
-        <button class="bg-secondary text-white font-semibold py-3 px-6 rounded-[30px] inline-flex items-center hover:bg-customHover"><a href="{{ route('concertpage') }}">See More</a></button>
-        </x-landing.concertcard>
-    <div class="text-center mt-[150px] text-4xl font-bold text-blacktext">
-        <h1>Seating Plan</h1>
-    </div>
-    <div class="w-full flex justify-center mt-10 mb-10">
-        <img src="{{ asset('seating.jpg') }}" alt="">
-    </div>
-    <div class="text-center text-4xl font-bold text-blacktext">
-        <h1>How to Purchase a Ticket?</h1>
-    </div>
-    <x-landing.steps>
-    </x-landing.steps>
-    </div>
+    <img class="h-[450px] w-[900px] relative left-[190px] rounded-[20px]" src="https://kpop-center.com/wp-content/uploads/2024/09/aespa_main-2.png" alt="">
+    <x-concertp.containseat>
+
+    </x-concertp.containseat>
     <x-footer>
         <div class="flex flex-col absolute right-[100px] md:flex-row items-center justify-center gap-12 p-12">
             <a href="{{ route('home') }}">Home</a>
@@ -178,4 +168,6 @@
     });
 </script>
 </div>
+</x-guest-layout>
+
 </x-guest-layout>

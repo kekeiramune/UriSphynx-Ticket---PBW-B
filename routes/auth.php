@@ -19,6 +19,10 @@ Route::get('category', function () {
     return view('category');
 })->name('category');
 
+Route::get('concertpage', function () {
+    return view('concertpage');
+})->name('concertpage');
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
