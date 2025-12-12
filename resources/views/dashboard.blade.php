@@ -1,5 +1,5 @@
 <x-app-layout>
-    <<div x-data="{ notif: false }">
+    <div x-data="{ notif: false }">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
