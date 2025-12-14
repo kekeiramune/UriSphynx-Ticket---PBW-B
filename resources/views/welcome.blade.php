@@ -7,9 +7,9 @@
     <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="{{ route('home') }}">Home</a>
     <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="#">Seating</a>
     <div x-data="{ open: false }" class="relative">
-    <button @click="open = !open" class="flex items-center gap-1">
+    <a href="{{ route('category') }}"><button @click="open = !open" class="flex items-center gap-1">
         Category <span><img src="{{ asset('linedown.svg') }}" alt=""></span>
-    </button>
+    </button></a>
 
     <div
         x-show="open"
