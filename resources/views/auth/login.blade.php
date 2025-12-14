@@ -56,6 +56,13 @@
                             type="password" placeholder="Masukkan Password"
                             name="password"
                             required autocomplete="current-password" />
+             <button
+        type="button"
+        onclick="togglePassword()"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-sm"
+    >
+        Show
+    </button>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -85,4 +92,15 @@
             </div>
         </div>
     </form>
+    <script>
+        function togglePassword() {
+    const input = document.getElementById('password');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
+    </script>
 </x-guest-layout>
