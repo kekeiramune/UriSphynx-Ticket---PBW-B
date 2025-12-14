@@ -8,6 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow rounded-lg p-6">
+                <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
                 <h3 class="text-lg font-bold mb-4">
                     Welcome, {{ auth()->user()->name }}
                 </h3>
