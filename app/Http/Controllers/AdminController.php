@@ -11,6 +11,13 @@ class AdminController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403);
 
-        return view('/admin/dashboardadmin');
+        return view('admin.dashboardadmin');
+    }
+
+    public function transactions()
+    {
+        abort_unless(Gate::allows('admin'), 403);
+
+        return view('admin.transadmin');
     }
 }
