@@ -17,6 +17,12 @@
                     You are logged in as <span class="font-semibold">Admin</span>.
                 </p>
 
+                <div class="mb-5 p-6 justify-between bg-[#5A6ACF] text-white rounded-lg">
+                    <h2 class="text-xl">Revenue</h2>
+                    <h1 class="text-2xl font-semibold">{{ $revenue ?? 0 }}</h1>
+                    <button class="mt-2 px-4 py-2 bg-white border border-[#DDE4F0] text-[#5A6ACF] rounded hover:bg-gray-300 hover:text-"><a href="">View Report</a></button>
+                </div>
+
                 <div class="grid grid-cols-3 gap-6">
                     <div class="p-4 bg-gray-100 rounded">
                         <p class="text-sm text-gray-500">Total Users</p>
