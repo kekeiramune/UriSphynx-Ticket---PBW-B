@@ -19,8 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware('auth');
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboardadmin');
+    Route::get('/transactions', [AdminController::class, 'transactions'])->name('admin.transadmin');
+});
+
 
 
 Route::get('/dashboard', function () {
