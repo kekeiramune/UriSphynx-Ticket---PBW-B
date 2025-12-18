@@ -144,9 +144,11 @@
     <p>Location - Date</p>
     </div>
     <img class="h-[450px] w-[900px] relative left-[190px] rounded-[20px]" src="https://kpop-center.com/wp-content/uploads/2024/09/aespa_main-2.png" alt="">
-    <x-concertp.containseat>
-
+    <x-concertp.containseat :seats="$seats">
     </x-concertp.containseat>
+    <div class="flex justify-center items-center mt-10 mb-20">
+        <button class="bg-blacktext rounded-[36.55px] text-white px-[320px] hover:bg-gray-700 py-3">Select Ticket</button>
+    </div>
     <x-footer>
         <div class="flex flex-col absolute right-[100px] md:flex-row items-center justify-center gap-12 p-12">
             <a href="{{ route('home') }}">Home</a>
