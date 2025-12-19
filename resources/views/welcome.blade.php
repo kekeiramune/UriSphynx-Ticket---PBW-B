@@ -143,7 +143,7 @@
         <p class="mt-8 text-[20px] font-normal text-basetext">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis harum quos sint cum eaque nobis molestiae nisi, assumenda magni consequuntur fuga quia asperiores excepturi id vitae, voluptatibus dolorum rem nostrum?</p>
     </div>
     <x-landing.concertcard>
-        <button class="bg-secondary text-white font-semibold py-3 px-6 rounded-[30px] inline-flex items-center hover:bg-customHover"><a href="{{ route('concert-page') }}">See More</a></button>
+        <button class="bg-secondary text-white font-semibold py-3 px-6 rounded-[30px] inline-flex items-center hover:bg-customHover"><a href="{{ route('concert.show', $concert->id_concert) }}">See More</a></button>
         </x-landing.concertcard>
     <div class="text-center mt-[150px] text-4xl font-bold text-blacktext">
         <h1>Seating Plan</h1>

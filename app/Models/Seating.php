@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seating extends Model
 {
-    protected $table = 'seat_types';
+    protected $table = 'seating';
 
     protected $fillable = [
         'name',

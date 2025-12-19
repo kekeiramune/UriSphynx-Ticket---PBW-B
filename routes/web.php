@@ -17,7 +17,7 @@ use App\Http\Controllers\ConcertController;
 */
 
 Route::get('/concert/{id_concert}', [ConcertController::class, 'show'])
-    ->middleware('auth');
+    ->name('concert.show');
 
 Route::get('/', function () {
     return view('welcome');
