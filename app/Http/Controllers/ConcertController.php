@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 use App\Models\Concert;
 use App\Models\Seating;
 use App\Models\Category;
+use App\Models\Concert_Price;
 
 class ConcertController extends Controller {
     public function show($id_concert)
 {
-    $concert = Concert::findOrFail($id_concert);
-    $seats = Seating::all();
+    $concerts = Concert::with('prices.seating')->findOrFail($id_concert);
 
-    return view('concert-page', compact('concert', 'seats'));
+    return view('concert-page', compact('concerts'));
 }
 }

@@ -280,8 +280,7 @@
     </div>
 
     <!-- CATEGORY CARDS -->
-    <x-category.container1c />
-    <x-category.container1c />
+    <x-category.container1c :category="$category"/>
 
     <!-- FOOTER -->
     <x-footer>
