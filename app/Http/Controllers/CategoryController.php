@@ -10,8 +10,8 @@ class CategoryController extends Controller
     // READ (ambil semua data)
     public function index()
     {
-        $categories = Category::all();
-        return view('categories.index', compact('categories'));
+        $category = Category::all();
+        return view('category', compact('category'));
     }
 
     // CREATE (simpan data baru)
@@ -29,9 +29,9 @@ class CategoryController extends Controller
     }
 
     // UPDATE (ubah data)
-    public function update(Request $request, $id)
+    public function update(Request $request, $idgroup)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::findOrFail($idgroup);
 
         $category->update($request->only([
             'groupname',
@@ -45,9 +45,9 @@ class CategoryController extends Controller
     }
 
     // DELETE (hapus data)
-    public function destroy($id)
+    public function destroy($idgroup)
     {
-        Category::destroy($id);
+        Category::destroy($idgroup);
         return redirect()->back();
     }
 }

@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConcertController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Concert;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +21,14 @@ use App\Http\Controllers\ConcertController;
 
 Route::get('/concert/{id_concert}', [ConcertController::class, 'show'])
     ->name('concert.show');
+    
+Route::get('/category', [CategoryController::class, 'index'])
+    ->name('category.index');
 
 Route::get('/', function () {
-    return view('welcome');
+    $concerts = Concert::with('category')->get();
+    $category = Category::all();
+    return view('welcome', compact('concerts', 'category'));
 });
 
 

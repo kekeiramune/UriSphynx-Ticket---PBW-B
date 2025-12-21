@@ -1,3 +1,4 @@
+@props(['concerts'])
 <x-guest-layout>
     <x-guest-layout>
     <div x-data="{ notifOpen: false }">
@@ -140,11 +141,12 @@
         </div>
     </div>
     <div class="text-center mb-8 mt-[100px] text-4xl font-bold text-blacktext">
-        <h1>Concert Name</h1>
-    <p>Location - Date</p>
+        <p class="text-xl font-normal mb-3 uppercase">{{ $concerts->category->type ?? 'Uncategorized' }}</p>
+        <h1 class="mb-3">{{ $concerts->concert_name }}</h1>
+        <p class="text-lg">{{ $concerts->venue }} - {{ $concerts->concert_date }}</p>
     </div>
     <img class="h-[450px] w-[900px] relative left-[190px] rounded-[20px]" src="https://kpop-center.com/wp-content/uploads/2024/09/aespa_main-2.png" alt="">
-    <x-concertp.containseat :seats="$seats">
+    <x-concertp.containseat :concerts="$concerts">
     </x-concertp.containseat>
     <div class="flex justify-center items-center mt-10 mb-20">
         <button class="bg-blacktext rounded-[36.55px] text-white px-[320px] hover:bg-gray-700 py-3">Select Ticket</button>

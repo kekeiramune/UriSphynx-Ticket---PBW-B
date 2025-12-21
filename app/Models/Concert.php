@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concert_Price;
+
 
 class Concert extends Model
 {
+    protected $table = 'concerts';
     protected $primaryKey = 'id_concert';
     protected $fillable = [
         'concert_name',
@@ -19,6 +22,10 @@ class Concert extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+    public function prices()
+    {
+        return $this->hasMany(Concert_Price::class, 'id_concert', 'id_concert');
     }
 }
