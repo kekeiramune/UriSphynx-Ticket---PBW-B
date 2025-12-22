@@ -1,4 +1,27 @@
 <x-app-layout>
+    <div class="min-h-screen flex bg-secondary">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray text-white flex flex-col">
+        <!-- Logo / Title -->
+        <div class="h-16 flex items-center px-6 text-xl font-semibold border-b border-slate-700">
+            UriSphynx Admin
+        </div>
+
+        <!-- Menu -->
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <a href="{{ route('admin.dashboardadmin') }}"
+               class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-800 transition">
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ route('admin.transadmin') }}"
+               class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-800 transition">
+                <span>Transactions</span>
+            </a>
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-800 tra
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800">
             Admin Dashboard
@@ -7,8 +30,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow rounded-lg p-6">
-                <h1 class="text-xl font-semibold text-[#1F384C]">Transaction History</h1>
+                <div class="overflow-x-auto relative left-[300px]">
+                    <div class="bg-white shadow rounded-lg p-6">
+                     <h1 class="text-xl font-semibold text-[#1F384C]">Transaction History</h1>
                 <table class="mt-5 min-w-full border border-gray-200 rounded-lg overflow-hidden">
                     <thead class="bg-[#5A6ACF]">
                         <tr>
@@ -34,6 +58,7 @@
                     </tbody>
                 </table>
             </div>
+                </div>
         </div>
     </div>
 </x-app-layout>
