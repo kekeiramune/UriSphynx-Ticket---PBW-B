@@ -28,4 +28,15 @@ class Concert extends Model
     {
         return $this->hasMany(Concert_Price::class, 'id_concert', 'id_concert');
     }
+    public function seatings()
+    {
+        return $this->belongsToMany(
+            Seating::class,
+            'concert_seating',   // pivot table
+            'concert_id',
+            'seating_id'
+        )->withPivot('price');
+    }
+
+
 }

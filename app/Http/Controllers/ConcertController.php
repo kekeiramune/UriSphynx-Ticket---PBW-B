@@ -10,11 +10,17 @@ use App\Models\Seating;
 use App\Models\Category;
 use App\Models\Concert_Price;
 
-class ConcertController extends Controller {
-    public function show($id_concert)
+class ConcertController extends Controller
 {
-    $concerts = Concert::with('prices.seating')->findOrFail($id_concert);
+    public function show($id_concert)
+    {
+        $concerts = Concert::with('category')->findOrFail($id_concert);
 
-    return view('concert-page', compact('concerts'));
-}
+        $prices = Concert_Price::with('seating')
+            ->where('id_concert', $id_concert)
+            ->where('status_seating', 'Available') // opsional kalau ada
+            ->get();
+
+        return view('concert-page', compact('concerts', 'prices'));
+    }
 }
