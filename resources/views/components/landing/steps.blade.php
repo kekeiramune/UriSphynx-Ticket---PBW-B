@@ -1,41 +1,61 @@
-<div class="relative p-10 mt-10">
-    <div class="relative flex gap-10 justify-center mt-10 mb-5">
-        <!-- Step 1 -->
-        <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
-            <h1 class="text-5xl text-center font-bold mb-4">01</h1>
-            <h2 class="text-2xl text-center font-bold mb-4">Step 1</h2>
-            <p class="text-basetext text-center">Register an account to get started with UriSphynx Ticket.</p>
+<section class="mt-24 px-6">
+    <div class="max-w-7xl mx-auto">
+
+        <h2 class="text-4xl font-bold text-center mb-16">
+            How to Purchase a Ticket?
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            
+            <!-- CARD -->
+            <div class="bg-white rounded-3xl p-8 shadow text-center">
+                <div class="text-5xl font-bold mb-4">01</div>
+                <h3 class="text-xl font-semibold mb-2">Step 1</h3>
+                <p class="text-basetext">
+                    Register an account to get started with UriSphynx Ticket.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow text-center">
+                <div class="text-5xl font-bold mb-4">02</div>
+                <h3 class="text-xl font-semibold mb-2">Step 2</h3>
+                <p class="text-basetext">
+                    Choose your preferred concert and seating.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow text-center">
+                <div class="text-5xl font-bold mb-4">03</div>
+                <h3 class="text-xl font-semibold mb-2">Step 3</h3>
+                <p class="text-basetext">
+                    Complete the payment process securely.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow text-center">
+                <div class="text-5xl font-bold mb-4">04</div>
+                <h3 class="text-xl font-semibold mb-2">Step 4</h3>
+                <p class="text-basetext">
+                    Receive your ticket confirmation.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow text-center">
+                <div class="text-5xl font-bold mb-4">05</div>
+                <h3 class="text-xl font-semibold mb-2">Step 5</h3>
+                <p class="text-basetext">
+                    Register an account to get started with UriSphynx Ticket.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow text-center">
+                <div class="text-5xl font-bold mb-4">06</div>
+                <h3 class="text-xl font-semibold mb-2">Step 6</h3>
+                <p class="text-basetext">
+                    Register an account to get started with UriSphynx Ticket.
+                </p>
+            </div>
         </div>
-        <!-- Step 2 -->
-        <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
-            <h1 class="text-5xl text-center font-bold mb-4">02</h1>
-            <h2 class="text-2xl text-center font-bold mb-4">Step 2</h2>
-            <p class="text-basetext text-center">Register an account to get started with UriSphynx Ticket.</p>
-        </div>
-        <!-- Step 3 -->
-        <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
-            <h1 class="text-5xl text-center font-bold mb-4">03</h1>
-            <h2 class="text-2xl text-center font-bold mb-4">Step 3</h2>
-            <p class="text-basetext text-center">Register an account to get started with UriSphynx Ticket.</p>
-        </div>
+
     </div>
-    <div class="relative top-10 flex gap-10 justify-center mt-10 mb-10">
-            <!-- Step 4 -->
-        <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
-            <h1 class="text-5xl text-center font-bold mb-4">04</h1>
-            <h2 class="text-2xl text-center font-bold mb-4">Step 4</h2>
-            <p class="text-basetext text-center">Register an account to get started with UriSphynx Ticket.</p>
-        </div>
-        <!-- Step 5 -->
-         <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
-            <h1 class="text-5xl text-center font-bold mb-4">05</h1>
-            <h2 class="text-2xl text-center font-bold mb-4">Step 5</h2>
-            <p class="text-basetext text-center">Register an account to get started with UriSphynx Ticket.</p>
-        </div>
-        <!-- Step 6 -->
-         <div class="relative w-[388px] h-[300px] bg-white rounded-[20px] shadow-lg p-10">
-            <h1 class="text-5xl text-center font-bold mb-4">06</h1>
-            <h2 class="text-2xl text-center font-bold mb-4">Step 6</h2>
-            <p class="text-basetext text-center">Register an account to get started with UriSphynx Ticket.</p>
-        </div>
-</div>
+</section>

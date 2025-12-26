@@ -21,6 +21,9 @@ use App\Models\Category;
 
 Route::get('/concert/{id_concert}', [ConcertController::class, 'show'])
     ->name('concert.show');
+
+Route::get('/payment/{concert}', [PaymentController::class, 'create'])
+    ->name('payment.form');
     
 Route::get('/category', [CategoryController::class, 'index'])
     ->name('category.index');

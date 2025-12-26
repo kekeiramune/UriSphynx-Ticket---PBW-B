@@ -1,16 +1,36 @@
 @props(['concerts'])
-<div class="grid grid-cols-2 gap-4 max-w-[900px] mx-auto mt-8 mb-8">
-    @foreach ($concerts->prices as $price)
-        <div class="w-[300px] h-[300px] bg-white border rounded-[24px] px-8 py-[100px] text-center">
+<div 
+    x-data="{ selectedSeat: null }"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+>
 
-            <h1 class="text-3xl mb-5 font-bold uppercase">
-                {{ $price->seating->name_seating }}
-            </h1>
+@foreach($seatings as $seat)
+    <div
+        @click="selectedSeat = {{ $seat->id }}"
+        :class="selectedSeat === {{ $seat->id }}
+            ? 'border-2 border-blue-500 bg-blue-50'
+            : 'border border-gray-300'"
+        class="cursor-pointer rounded-2xl p-6 shadow transition"
+    >
+        <h3 class="text-xl font-bold">{{ $seat->seat_type }}</h3>
+        <p class="mt-2 text-basetext">Price: Rp {{ number_format($seat->price) }}</p>
+    </div>
+@endforeach
 
-            <p class="text-xl text-[#9795B5]">
-                Rp {{ number_format($price->ticket_price, 0, ',', '.') }}
-            </p>
+    <!-- BUTTON -->
+    <div class="col-span-full flex justify-center mt-10">
+        <button
+            @click="
+                if(selectedSeat){
+                    window.location.href = '/payment/' + selectedSeat
+                } else {
+                    alert('Pilih seat dulu')
+                }
+            "
+            class="bg-blacktext text-white px-20 py-3 rounded-full hover:bg-gray-700"
+        >
+            Select Ticket
+        </button>
+    </div>
 
-        </div>
-    @endforeach
 </div>
