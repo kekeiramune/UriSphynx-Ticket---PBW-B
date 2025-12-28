@@ -11,7 +11,7 @@
                 <p class="px-4 text-gray-500 uppercase text-sm">Menu</p>
 
                 <a href="{{ route('admin.dashboardadmin') }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 text-[#707FDD]">
+                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
                     <img src="{{ asset('chart.svg') }}"><span>Dashboard</span>
                 </a>
 
@@ -30,8 +30,7 @@
                     <img src="{{ asset('docblack.svg') }}" alt=""><span>Ticket Management</span>
                 </a>
                 <p class="flex-1 px-4 py-6 text-gray-500 uppercase">Others</p>
-                <a href="{{ route('admin.accountmanage') }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
+                <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 text-[#707FDD]">
                     <img src="{{ asset('profadmin.svg') }}" alt=""><span>Accounts</span>
                 </a>
                 <a href="#"
@@ -42,6 +41,17 @@
         </aside>
 
         <!-- MAIN CONTENT -->
+        <main class="flex-1 p-6 justify-center items-center flex">
+            <div class="flex flex-col items-center gap-6">
+                <img src="{{ asset('calebb.jpg') }}" alt="User photo" class="w-[300px] h-[300px] rounded-full object-cover" />
+                <h1 class="text-xl text-[#1F384C] font-semibold">Admin Caleb</h1>
+                <h1 class="text-xl text-[#1F384C] font-semibold">AdminCaleb123</h1>
+                <h1 class="text-xl text-[#1F384C] font-semibold">admincaleb1@gmail.com</h1>
+                <h1 class="text-xl text-[#1F384C] font-semibold">Phone Number</h1>
+                <a href="{{ route('admin.editprofadmin') }}" class="bg-white font-semibold text-[#5A6ACF] px-4 py-2 rounded-lg hover:bg-gray-300 transition">Edit Profile</a>
+            </div>
+
+            </main>
 
     </div>
 </x-app-layout>

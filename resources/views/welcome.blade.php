@@ -72,7 +72,7 @@
                 <x-slot:search>
                     <div class="w-full md:w-1/2 bg-white rounded-full px-6 py-2 flex items-center gap-3 shadow">
                         <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70">
-                        <input class="w-full bg-transparent outline-none" placeholder="Search">
+                        <input class="w-full bg-transparent border-0 outline-none focus:outline-none focus:ring-0 focus:border-transparent" placeholder="Search">
                     </div>
                 </x-slot:search>
             </x-navbar>
