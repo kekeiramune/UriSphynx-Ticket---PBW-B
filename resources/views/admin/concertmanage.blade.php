@@ -29,12 +29,26 @@
                     <img src="{{ asset('docblack.svg') }}"><span>Ticket Management</span>
                 </a>
 
+                <a href="{{ route('admin.categorymanage') }}"
+                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
+                    <img src="{{ asset('docblack.svg') }}" alt=""><span>Category Management</span>
+                </a>
+
                 <p class="flex-1 px-4 py-6 text-gray-500 uppercase">Others</p>
 
                 <a href="{{ route('admin.accountmanage') }}"
                     class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
-                    <img src="{{ asset('profadmin.svg') }}"><span>Accounts</span>
+                    <img src="{{ asset('profadmin.svg') }}" alt=""><span>Accounts</span>
                 </a>
+
+                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="javascript:void(0)" onclick="confirmLogout()"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
+                        <img src="{{ asset('logout.svg') }}" alt="">
+                        <span>Logout</span>
+                    </a>
+                </form>
             </nav>
         </aside>
 
@@ -51,8 +65,7 @@
                 <!-- Concert Name -->
                 <div class="mt-2 mb-2">
                     <label class="font-semibold">Concert Name</label>
-                    <input type="text" name="concert_name"
-                        placeholder="Input Name"
+                    <input type="text" name="concert_name" placeholder="Input Name"
                         class="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 placeholder-[#5A6ACF]"
                         required>
                 </div>
@@ -60,8 +73,7 @@
                 <!-- Ticket Price -->
                 <div class="mt-2 mb-2">
                     <label class="font-semibold">Ticket Price</label>
-                    <input type="number" name="price"
-                        placeholder="Input Price"
+                    <input type="number" name="price" placeholder="Input Price"
                         class="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 placeholder-[#5A6ACF]"
                         required>
                 </div>
@@ -71,10 +83,7 @@
                     <label class="font-semibold">Ticket Category</label>
 
                     <div x-data="{ open: false, selected: '' }" class="relative w-[500px]">
-                        <input type="text"
-                            x-model="selected"
-                            readonly
-                            placeholder="Choose Category"
+                        <input type="text" x-model="selected" readonly placeholder="Choose Category"
                             @click="open = !open"
                             class="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 placeholder-[#5A6ACF] cursor-pointer">
 
@@ -84,14 +93,12 @@
                         <div x-show="open" @click.outside="open = false"
                             class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg">
                             @foreach ($categories ?? [] as $cat)
-                                <div
-                                    class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                    @click="
-                                        selected = '{{ $cat->name }}';
-                                        $refs.hidden.value = '{{ $cat->id }}';
-                                        open = false;
-                                    ">
-                                    {{ $cat->name }}
+                                <div class="px-4 py-2 hover:bg-gray-100 cursor-pointer" @click="
+                                                selected = '{{ $cat->groupname}}';
+                                                $refs.hidden.value = '{{ $cat->idgroup }}';
+                                                open = false;
+                                            ">
+                                    {{ $cat->groupname }}
                                 </div>
                             @endforeach
                         </div>
@@ -101,8 +108,7 @@
                 <!-- Quota -->
                 <div class="mt-2 mb-2">
                     <label class="font-semibold">Ticket Quota</label>
-                    <input type="number" name="quota"
-                        placeholder="Input Quota"
+                    <input type="number" name="quota" placeholder="Input Quota"
                         class="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 placeholder-[#5A6ACF]"
                         required>
                 </div>
@@ -141,4 +147,22 @@
 
         </main>
     </div>
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Logout?',
+                text: 'You will be signed out from your account',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#9ca3af',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit();
+                }
+            })
+        }
+    </script>
 </x-app-layout>

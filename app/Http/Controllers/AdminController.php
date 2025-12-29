@@ -155,4 +155,90 @@ class AdminController extends Controller
         return view('admin.editprofadmin');
     }
 
+    public function categoryview()
+    {
+        abort_unless(Gate::allows('admin'), 403);
+
+        return view('admin.categorymanage');
+    }
+
+    public function showCategory()
+    {
+        abort_unless(Gate::allows('admin'), 403);
+
+        $categories = DB::table('category')->get();
+        return view('admin.categorymanage', compact('categories'));
+    }
+
+    public function createCategory()
+    {
+        abort_unless(Gate::allows('admin'), 403);
+
+        return view('admin.category_create');
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'groupname' => 'required|string|max:100'
+        ]);
+
+        DB::table('category')->insert([
+            'groupname' => $request->groupname,
+            'type' => $request->type,
+            'debut' => $request->debut,
+            'agency' => $request->agency,
+            'popular' => $request->popular,
+        ]);
+
+        return redirect()
+            ->route('admin.categorymanage')
+            ->with('success', 'Category berhasil ditambahkan');
+    }
+
+    public function editCategory($id)
+    {
+        abort_unless(Gate::allows('admin'), 403);
+
+        $category = DB::table('category')
+            ->where('idgroup', $id)
+            ->first();
+
+        return view('admin.category_edit', compact('category'));
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $request->validate([
+            'name_category' => 'required|string|max:100'
+        ]);
+
+        DB::table('category')
+            ->where('idgroup', $id)
+            ->update([
+                'groupname' => $request->groupname,
+                'type' => $request->type,
+                'debut' => $request->debut,
+                'agency' => $request->agency,
+                'popular' => $request->popular,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()
+            ->route('admin.category.index')
+            ->with('success', 'Category berhasil diupdate');
+    }
+
+    public function deleteCategory($id)
+    {
+        DB::table('category')
+            ->where('idgroup', $id)
+            ->delete();
+
+        return redirect()
+            ->route('admin.categorymanage')
+            ->with('success', 'Category berhasil dihapus');
+    }
+
+
 }
