@@ -36,7 +36,7 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboardadmin'])->name('admin.dashboardadmin');
     Route::get('/transactions', [AdminController::class, 'transactions'])->name('admin.transadmin');
     Route::get('/concertmanage', [AdminController::class, 'concertmanage'])->name('admin.concertmanage');
@@ -49,17 +49,35 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         ->name('admin.ticket.update');
     Route::get('/concertmanage/create', [AdminController::class, 'createTicket'])
         ->name('admin.ticket.create');
-
     Route::post('/concertmanage/store', [AdminController::class, 'storeTicket'])
         ->name('admin.ticket.store');
+    Route::get('/categorymanage', [AdminController::class, 'showCategory'])
+        ->name('admin.categorymanage');
+
+    Route::get('/category/create', [AdminController::class, 'createCategory'])
+        ->name('admin.category.create');
+
+    Route::post('/category/store', [AdminController::class, 'storeCategory'])
+        ->name('admin.category.store');
+
+    Route::get('/category/{id}/edit', [AdminController::class, 'editCategory'])
+        ->name('admin.category.edit');
+
+    Route::post('/category/{id}/update', [AdminController::class, 'updateCategory'])
+        ->name('admin.category.update');
+
+    Route::post('/category/{id}/delete', [AdminController::class, 'deleteCategory'])
+        ->name('admin.category.delete');
 
 });
 
-
-
 Route::get('/dashboard', function () {
+    if (auth()->user()->role === 'admin') {
+        return redirect()->route('admin.dashboardadmin');
+    }
+
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
