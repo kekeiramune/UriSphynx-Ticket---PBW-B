@@ -43,9 +43,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/ticketmanage', [AdminController::class, 'ticketmanage'])->name('admin.ticketmanage');
     Route::get('/accountmanage', [AdminController::class, 'accountmanage'])->name('admin.accountmanage');
     Route::get('/editprofadmin', [AdminController::class, 'editprofadmin'])->name('admin.editprofadmin');
-    Route::get('/admin/ticket/{id}/edit', [AdminController::class, 'editTicket'])
+    Route::get('/ticket/{id}/edit', [AdminController::class, 'editTicket'])
         ->name('admin.ticket.edit');
-    Route::post('/admin/ticket/{id}/update', [AdminController::class, 'updateTicket'])
+    Route::post('/ticket/{id}/update', [AdminController::class, 'updateTicket'])
         ->name('admin.ticket.update');
     Route::get('/concertmanage/create', [AdminController::class, 'createTicket'])
         ->name('admin.ticket.create');
@@ -63,7 +63,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/category/{id}/edit', [AdminController::class, 'editCategory'])
         ->name('admin.category.edit');
 
-    Route::post('/category/{id}/update', [AdminController::class, 'updateCategory'])
+    Route::put('/category/{id}/update', [AdminController::class, 'updateCategory'])
         ->name('admin.category.update');
 
     Route::post('/category/{id}/delete', [AdminController::class, 'deleteCategory'])

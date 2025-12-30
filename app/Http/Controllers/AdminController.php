@@ -180,8 +180,11 @@ class AdminController extends Controller
     public function storeCategory(Request $request)
     {
         $request->validate([
-            'groupname' => 'required|string|max:100'
+            'groupname' => 'required|string|max:100',
+            'groupimg' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
+
+        $path = $request->file('groupimg')->store('categories', 'public');
 
         DB::table('category')->insert([
             'groupname' => $request->groupname,
@@ -189,6 +192,7 @@ class AdminController extends Controller
             'debut' => $request->debut,
             'agency' => $request->agency,
             'popular' => $request->popular,
+            'groupimg' => $path,
         ]);
 
         return redirect()
@@ -209,25 +213,45 @@ class AdminController extends Controller
 
     public function updateCategory(Request $request, $id)
     {
+
         $request->validate([
-            'name_category' => 'required|string|max:100'
+            'groupname' => 'required|string|max:100',
+            'groupimg' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        DB::table('category')
-            ->where('idgroup', $id)
-            ->update([
-                'groupname' => $request->groupname,
-                'type' => $request->type,
-                'debut' => $request->debut,
-                'agency' => $request->agency,
-                'popular' => $request->popular,
-                'updated_at' => now(),
-            ]);
+        $category = DB::table('category')->where('idgroup', $id)->first();
 
-        return redirect()
-            ->route('admin.category.index')
+        $data = [
+            'groupname' => $request->groupname,
+            'type' => $request->type,
+            'debut' => $request->debut,
+            'agency' => $request->agency,
+            'popular' => $request->popular,
+        ];
+
+        if ($request->hasFile('groupimg')) {
+            $data['groupimg'] = $request->file('groupimg')->store('categories', 'public');
+        } else {
+            // pakai gambar lama
+            $data['groupimg'] = $category->groupimg;
+        }
+
+        $affected = DB::table('category')
+            ->where('idgroup', $id)
+            ->update($data);
+
+        if ($affected === 0) {
+            return back()->with('info', 'Tidak ada perubahan data');
+        }
+
+
+
+        DB::table('category')->where('idgroup', $id)->update($data);
+
+        return redirect()->route('admin.categorymanage')
             ->with('success', 'Category berhasil diupdate');
     }
+
 
     public function deleteCategory($id)
     {

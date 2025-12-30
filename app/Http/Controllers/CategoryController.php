@@ -22,7 +22,8 @@ class CategoryController extends Controller
             'type',
             'debut',
             'agency',
-            'popular'
+            'popular',
+            'groupimg',
         ]));
 
         return redirect()->back();
@@ -38,7 +39,8 @@ class CategoryController extends Controller
             'type',
             'debut',
             'agency',
-            'popular'
+            'popular',
+            'groupimg',
         ]));
 
         return redirect()->back();
