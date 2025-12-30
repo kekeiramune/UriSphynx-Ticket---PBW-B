@@ -154,8 +154,8 @@
                     <div @click="if(!{{ $soldOut ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
                         class="relative rounded-3xl border p-14 bg-white text-center cursor-pointer transition select-none"
                         :class="selectedCp === {{ $cpId }}
-                        ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
-                        : 'border-gray-200 hover:border-gray-400 hover:shadow'">
+                            ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
+                            : 'border-gray-200 hover:border-gray-400 hover:shadow'">
                         @if($soldOut)
                             <span class="absolute top-4 right-4 text-xs px-3 py-1 rounded-full bg-red-100 text-red-600">
                                 SOLD OUT
