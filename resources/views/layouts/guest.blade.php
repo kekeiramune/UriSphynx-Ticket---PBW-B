@@ -19,6 +19,9 @@
             {{ $slot }}
     </div>
     <script src="//unpkg.com/alpinejs" defer></script>
+<<<<<<< HEAD
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+=======
+>>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 </body>
 </html>

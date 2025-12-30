@@ -14,11 +14,21 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+<<<<<<< HEAD
     $concerts = Concert::with('category')->get();
     $category = Category::all();
     return view('welcome', compact('concerts', 'category'));
 })->name('home');
 
+=======
+    return view('welcome');
+})->name('home');
+
+Route::get('category', function () {
+    return view('category');
+})->name('category');
+
+>>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
