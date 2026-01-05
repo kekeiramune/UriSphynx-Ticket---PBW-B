@@ -4,13 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConcertController;
-<<<<<<< HEAD
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Concert;
 use App\Models\Category;
-=======
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +23,6 @@ use App\Models\Category;
 Route::get('/concert/{id_concert}', [ConcertController::class, 'show'])
     ->name('concert.show');
 
-<<<<<<< HEAD
 Route::get('/payment/{concert}', [PaymentController::class, 'create'])
     ->name('payment.form');
 
@@ -82,23 +78,6 @@ Route::get('/dashboard', function () {
 
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
-=======
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboardadmin');
-    Route::get('/transactions', [AdminController::class, 'transactions'])->name('admin.transadmin');
-});
-
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -106,8 +85,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-<<<<<<< HEAD
 require __DIR__ . '/auth.php';
-=======
-require __DIR__.'/auth.php';
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa

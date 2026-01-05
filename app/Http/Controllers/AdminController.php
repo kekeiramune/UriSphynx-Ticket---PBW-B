@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-<<<<<<< HEAD
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
@@ -28,16 +27,6 @@ class AdminController extends Controller
     }
     public function dashboardadmin()
     {
-=======
-
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Gate;
-
-class AdminController extends Controller
-{
-    public function index()
-    {
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
         abort_unless(Gate::allows('admin'), 403);
 
         return view('admin.dashboardadmin');
@@ -49,7 +38,6 @@ class AdminController extends Controller
 
         return view('admin.transadmin');
     }
-<<<<<<< HEAD
 
     public function concertmanage()
     {
@@ -278,6 +266,3 @@ class AdminController extends Controller
 
 
 }
-=======
-}
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
