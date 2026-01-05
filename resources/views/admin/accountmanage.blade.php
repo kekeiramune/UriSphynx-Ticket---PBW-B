@@ -51,12 +51,17 @@
         <!-- MAIN CONTENT -->
         <main class="flex-1 p-6 justify-center items-center flex">
             <div class="flex flex-col items-center gap-6">
-                <img src="{{ asset('calebb.jpg') }}" alt="User photo"
+                <img src="{{ asset('storage/photo_profile/' . auth()->user()->accimage) }}" alt="User photo"
                     class="w-[300px] h-[300px] rounded-full object-cover" />
-                <h1 class="text-xl text-[#1F384C] font-semibold">Admin Caleb</h1>
-                <h1 class="text-xl text-[#1F384C] font-semibold">AdminCaleb123</h1>
-                <h1 class="text-xl text-[#1F384C] font-semibold">admincaleb1@gmail.com</h1>
-                <h1 class="text-xl text-[#1F384C] font-semibold">Phone Number</h1>
+                <h1 class="text-xl font-semibold text-[#1F384C]">
+    {{ auth()->user()->name }}
+</h1>
+                <h1 class="text-xl font-semibold text-[#1F384C]">
+    {{ auth()->user()->email }}
+</h1>
+                <h1 class="text-xl font-semibold text-[#1F384C]">
+    {{ auth()->user()->no_hp ?? '-' }}
+</h1>
                 <a href="{{ route('admin.editprofadmin') }}"
                     class="bg-white font-semibold text-[#5A6ACF] px-4 py-2 rounded-lg hover:bg-gray-300 transition">Edit
                     Profile</a>
@@ -83,4 +88,16 @@
             })
         }
     </script>
+    @if (session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Saved!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#5A6ACF',
+            });
+        });
+    </script>
+    @endif
 </x-app-layout>
