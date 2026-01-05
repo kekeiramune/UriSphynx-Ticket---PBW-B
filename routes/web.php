@@ -26,6 +26,10 @@ Route::get('/concert/{id_concert}', [ConcertController::class, 'show'])
 Route::get('/payment/{concert}', [PaymentController::class, 'create'])
     ->name('payment.form');
 
+Route::post('/payment/{concert}', [PaymentController::class, 'store'])
+    ->name('payment.store');
+
+
 Route::get('/category', [CategoryController::class, 'index'])
     ->name('category.index');
 
@@ -68,6 +72,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     Route::post('/category/{id}/delete', [AdminController::class, 'deleteCategory'])
         ->name('admin.category.delete');
+
+    Route::put('/transaction/{id}/approve', [AdminController::class, 'approveTransaction'])
+        ->name('admin.transaction.approve');
+
+    Route::put('/profile', [AdminController::class, 'update'])
+        ->name('admin.profile.update');
+
 
 });
 

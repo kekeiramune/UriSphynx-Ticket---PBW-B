@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
+use App\Models\Concert_Price;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -30,13 +34,6 @@ class AdminController extends Controller
         abort_unless(Gate::allows('admin'), 403);
 
         return view('admin.dashboardadmin');
-    }
-
-    public function transactions()
-    {
-        abort_unless(Gate::allows('admin'), 403);
-
-        return view('admin.transadmin');
     }
 
     public function concertmanage()
@@ -263,6 +260,80 @@ class AdminController extends Controller
             ->route('admin.categorymanage')
             ->with('success', 'Category berhasil dihapus');
     }
+
+    public function transactions()
+    {
+        abort_unless(Gate::allows('admin'), 403);
+
+        $transactions = Transaction::with(['user', 'concert', 'price'])
+            ->latest()
+            ->get();
+
+        return view('admin.transadmin', compact('transactions'));
+    }
+
+    public function approveTransaction($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+
+        if ($transaction->status === 'paid') {
+            return back();
+        }
+
+        // update status
+        $transaction->update([
+            'status' => 'paid'
+        ]);
+
+        // update sold ticket
+        $price = Concert_Price::find($transaction->id_price);
+        if ($price) {
+            $price->increment('sold');
+        }
+
+        return back()->with('success', 'Transaction approved');
+    }
+
+    public function profile()
+    {
+        return view('admin.accountmanage', [
+            'user' => auth()->user()
+        ]);
+    }
+
+
+    public function edit()
+    {
+        return view('admin.editprofadmin', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($request->hasFile('accimage')) {
+            $file = $request->file('accimage');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            $file->storeAs('public/photo_profile', $filename);
+
+            // simpan ke kolom accimage
+            $user->accimage = $filename;
+        }
+
+        $user->name = $request->adminname;
+        $user->email = $request->adminemail;
+        $user->no_hp = $request->adminumber;
+        $user->save();
+
+        return redirect()
+            ->route('admin.accountmanage')
+            ->with('success', 'Profile updated successfully');
+    }
+
+
 
 
 }

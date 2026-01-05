@@ -61,36 +61,86 @@
                     <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
                         <thead class="bg-[#5A6ACF]">
                             <tr>
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Username</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Name</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">User ID</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Price</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-white">Payment Status</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-white">Payment Method</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-white">POP</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Action</th>
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody class="divide-y divide-gray-200">
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm">Yuuki</td>
-                                <td class="px-4 py-3">
-                                    <span class="bg-green-500 text-white px-3 py-1 rounded text-xs">Success</span>
-                                </td>
-                                <td class="px-4 py-3 text-sm">QRIS</td>
-                                <td class="px-4 py-3 text-sm text-blue-500 underline cursor-pointer">
-                                    View
-                                </td>
-                            </tr>
+                            @forelse ($transactions as $trx)
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm">
+                                        {{ $trx->name }}
+                                    </td>
 
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm">Admin</td>
-                                <td class="px-4 py-3">
-                                    <span class="bg-yellow-500 text-white px-3 py-1 rounded text-xs">Pending</span>
-                                </td>
-                                <td class="px-4 py-3 text-sm">Dana</td>
-                                <td class="px-4 py-3 text-sm text-blue-500 underline cursor-pointer">
-                                    View
-                                </td>
-                            </tr>
+                                    <td class="px-4 py-3 text-sm">
+                                        {{ $trx->user_id }}
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm">
+                                        Rp {{ number_format($trx->total_price, 0, ',', '.') }}
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        @if ($trx->status === 'paid')
+                                            <span class="bg-green-500 text-white px-3 py-1 rounded text-xs">
+                                                Paid
+                                            </span>
+                                        @else
+                                            <span class="bg-yellow-500 text-white px-3 py-1 rounded text-xs">
+                                                Pending
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm uppercase">
+                                        {{ $trx->payment_method }}
+                                    </td>
+
+                                    <td class="px-4 py-3 text-sm text-blue-500 underline">
+                                        <a href="{{ asset('storage/payment_proofs/' . $trx->payment_proof) }}"
+                                            target="_blank">
+                                            View
+                                        </a>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @if ($trx->status === 'Pending' && $trx->payment_proof)
+                                            <form method="POST"
+                                                action="{{ route('admin.transaction.approve', $trx->id_transaction) }}">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <button type="button" onclick="confirmApprove(this)"
+                                                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded text-xs">
+                                                    Approve
+                                                </button>
+                                            </form>
+                                        @elseif ($trx->status === 'Pending')
+                                            <span class="text-gray-400 text-xs">
+                                                Waiting for proof
+                                            </span>
+                                        @else
+                                            <span class="text-gray-400 text-xs">—</span>
+                                        @endif
+
+                                    </td>
+
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center py-6 text-gray-500">
+                                        No transactions found.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -113,6 +163,25 @@
                     document.getElementById('logout-form').submit();
                 }
             })
+        }
+
+        function confirmApprove(button) {
+            const form = button.closest('form');
+
+            Swal.fire({
+                title: 'Approve this payment?',
+                text: 'Make sure the payment proof is valid.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, approve',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#16a34a',
+                cancelButtonColor: '#9ca3af',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         }
     </script>
 </x-app-layout>

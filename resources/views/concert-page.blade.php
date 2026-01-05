@@ -153,8 +153,8 @@
                     <div @click="if(!{{ $soldOut ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
                         class="relative rounded-3xl border p-14 bg-white text-center cursor-pointer transition select-none"
                         :class="selectedCp === {{ $cpId }}
-                            ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
-                            : 'border-gray-200 hover:border-gray-400 hover:shadow'">
+                                ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
+                                : 'border-gray-200 hover:border-gray-400 hover:shadow'">
                         @if($soldOut)
                             <span class="absolute top-4 right-4 text-xs px-3 py-1 rounded-full bg-red-100 text-red-600">
                                 SOLD OUT
@@ -194,12 +194,27 @@
 
             <!-- tombol bawah: masih bisa alert dulu -->
             <div class="flex justify-center items-center mt-12 mb-20">
-                <button type="button" :disabled="!selectedCp" @click="alert('Selected Concert Price ID: ' + selectedCp)"
-                    class="rounded-[36.55px] text-white py-3 w-full max-w-5xl transition"
-                    :class="selectedCp ? 'bg-blacktext hover:bg-gray-700' : 'bg-gray-300 cursor-not-allowed'">
-                    <a href="{{ route('payment.form', $concerts->id_concert) }}">Select Ticket</a>
+                <button type="button" :disabled="!selectedCp" @click="
+            Swal.fire({
+                title: 'Confirm your ticket',
+                text: 'You are about to continue with the selected ticket category.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, continue',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#000000'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '{{ route('payment.form', $concerts->id_concert) }}?cp=' + selectedCp;
+                }
+            })
+        " class="rounded-[36.55px] text-white py-3 w-full max-w-5xl transition" :class="selectedCp 
+            ? 'bg-blacktext hover:bg-gray-700' 
+            : 'bg-gray-300 cursor-not-allowed'">
+                    Select Ticket
                 </button>
             </div>
+
 
         </div>
 
