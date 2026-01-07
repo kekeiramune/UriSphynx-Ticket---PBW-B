@@ -58,8 +58,8 @@
             <div class="p-8">
                 <!-- Header -->
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-[#273240]">Edit Ticket</h1>
-                    <p class="text-gray-500 mt-1">Update ticket information for {{ $ticket->concert_name }} ({{ $ticket->name_seating }})</p>
+                    <h1 class="text-3xl font-bold text-[#273240]">Add New Ticket</h1>
+                    <p class="text-gray-500 mt-1">Create a new ticket price for an existing concert</p>
                 </div>
 
                 <!-- Success/Error Messages -->
@@ -81,33 +81,55 @@
 
                 <!-- Form Card -->
                 <div class="bg-white rounded-xl shadow-sm p-8">
-                    <form method="POST" action="{{ route('admin.ticket.update', $ticket->id_price) }}">
+                    <form action="{{ route('admin.ticketprice.store') }}" method="POST">
                         @csrf
 
-                        <!-- Concert Info Display -->
-                        <div class="bg-gradient-to-r from-[#707FDD] to-[#5f6bc9] rounded-lg p-6 mb-8 text-white">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <p class="text-sm opacity-90">Concert</p>
-                                    <p class="text-xl font-bold">{{ $ticket->concert_name }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-sm opacity-90">Seating Category</p>
-                                    <p class="text-xl font-bold">{{ $ticket->name_seating }}</p>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Concert Selection -->
+                            <div>
+                                <label for="id_concert" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Select Concert <span class="text-red-500">*</span>
+                                </label>
+                                <select name="id_concert" id="id_concert"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                    required>
+                                    <option value="">-- Choose a Concert --</option>
+                                    @foreach($concerts as $concert)
+                                        <option value="{{ $concert->id_concert }}" {{ old('id_concert') == $concert->id_concert ? 'selected' : '' }}>
+                                            {{ $concert->concert_name }} - {{ \Carbon\Carbon::parse($concert->concert_date)->format('d M Y') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <p class="text-xs text-gray-500 mt-1">Select the concert for this ticket</p>
+                            </div>
+
+                            <!-- Seating Category Selection -->
+                            <div>
+                                <label for="id_seating" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Seating Category <span class="text-red-500">*</span>
+                                </label>
+                                <select name="id_seating" id="id_seating"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                    required>
+                                    <option value="">-- Choose Seating Category --</option>
+                                    @foreach($seatings as $seating)
+                                        <option value="{{ $seating->id_seating }}" {{ old('id_seating') == $seating->id_seating ? 'selected' : '' }}>
+                                            {{ $seating->name_seating }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <p class="text-xs text-gray-500 mt-1">VIP, Regular, Festival, etc.</p>
+                            </div>
+
                             <!-- Ticket Price -->
                             <div>
                                 <label for="ticket_price" class="block text-sm font-semibold text-gray-700 mb-2">
                                     Ticket Price (IDR) <span class="text-red-500">*</span>
                                 </label>
-                                <input type="number" name="ticket_price" id="ticket_price" 
-                                    value="{{ old('ticket_price', $ticket->ticket_price) }}"
+                                <input type="number" name="ticket_price" id="ticket_price" value="{{ old('ticket_price') }}"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
                                     placeholder="e.g., 500000" required min="0">
+                                <p class="text-xs text-gray-500 mt-1">Price in Indonesian Rupiah</p>
                             </div>
 
                             <!-- Quota -->
@@ -115,10 +137,10 @@
                                 <label for="quota" class="block text-sm font-semibold text-gray-700 mb-2">
                                     Quota <span class="text-red-500">*</span>
                                 </label>
-                                <input type="number" name="quota" id="quota" 
-                                    value="{{ old('quota', $ticket->quota) }}"
+                                <input type="number" name="quota" id="quota" value="{{ old('quota') }}"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
                                     placeholder="e.g., 100" required min="1">
+                                <p class="text-xs text-gray-500 mt-1">Number of tickets available</p>
                             </div>
 
                             <!-- Status -->
@@ -129,10 +151,11 @@
                                 <select name="status_seating" id="status_seating"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
                                     required>
-                                    <option value="available" {{ $ticket->status_seating == 'available' ? 'selected' : '' }}>Available</option>
-                                    <option value="sold_out" {{ $ticket->status_seating == 'sold_out' ? 'selected' : '' }}>Sold Out</option>
-                                    <option value="hidden" {{ $ticket->status_seating == 'hidden' ? 'selected' : '' }}>Hidden</option>
+                                    <option value="available" {{ old('status_seating') == 'available' ? 'selected' : '' }}>Available</option>
+                                    <option value="sold_out" {{ old('status_seating') == 'sold_out' ? 'selected' : '' }}>Sold Out</option>
+                                    <option value="hidden" {{ old('status_seating') == 'hidden' ? 'selected' : '' }}>Hidden</option>
                                 </select>
+                                <p class="text-xs text-gray-500 mt-1">Set ticket availability status</p>
                             </div>
                         </div>
 
@@ -143,7 +166,7 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                Update Ticket
+                                Create Ticket
                             </button>
 
                             <a href="{{ route('admin.ticketmanage') }}"

@@ -22,8 +22,9 @@
                         class="w-full border rounded-lg px-4 py-3 focus:ring focus:ring-blue-300">
                         <option value="">- Pilih -</option>
                         @foreach($prices as $price)
-                            <option value="{{ $price->id_price }}" data-price="{{ $price->ticket_price }}">
-                                {{ $price->seating->name }}
+                            <option value="{{ $price->id_price }}" data-price="{{ $price->ticket_price }}" 
+                                {{ request('cp') == $price->id_price ? 'selected' : '' }}>
+                                {{ $price->seating->name_seating ?? $price->seating->name }}
                                 — Rp {{ number_format($price->ticket_price, 0, ',', '.') }}
                             </option>
                         @endforeach
@@ -97,5 +98,7 @@
             document.getElementById('priceInput').value = 'Rp ' + formatted;
             document.getElementById('totalInput').value = 'Rp ' + formatted;
         }
+
+        document.addEventListener('DOMContentLoaded', updatePrice);
     </script>
 </x-app-layout>

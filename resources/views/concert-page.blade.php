@@ -83,11 +83,13 @@
                     </x-slot:right>
 
                     <x-slot:search>
-                        <div class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
-                            <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
-                            <input type="text" placeholder="Search"
+                        <form action="{{ route('category.index') }}" method="GET" class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
+                            <button type="submit">
+                                <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
+                            </button>
+                            <input type="text" name="search" placeholder="Search"
                                 class="w-full bg-transparent border-none outline-none focus:ring-0 font-dmsans text-blacktext" />
-                        </div>
+                        </form>
                     </x-slot:search>
                 </x-navbar>
 
@@ -133,8 +135,8 @@
         </div>
 
         <div class="w-full flex justify-center">
-            <img class="h-[450px] w-[900px] rounded-[20px]"
-                src="https://kpop-center.com/wp-content/uploads/2024/09/aespa_main-2.png" alt="">
+            <img class="h-[450px] w-[900px] rounded-[20px] object-cover"
+                src="{{ asset('storage/' . $concerts->image) }}" alt="{{ $concerts->concert_name }}">
         </div>
 
         <!-- ✅ SEAT SELECT CLEAN -->
@@ -143,6 +145,9 @@
             <h2 class="text-center font-semibold mb-10">Select Ticket Category :</h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                @php
+                    $isFinished = $concerts->status_concert == 'Finished';
+                @endphp
                 @forelse($prices as $p)
                     @php
                         $remaining = max(0, $p->quota - $p->sold);
@@ -150,11 +155,11 @@
                         $cpId = $p->getKey();
                     @endphp
 
-                    <div @click="if(!{{ $soldOut ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
+                    <div @click="if(!{{ $soldOut || $isFinished ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
                         class="relative rounded-3xl border p-14 bg-white text-center cursor-pointer transition select-none"
                         :class="selectedCp === {{ $cpId }}
                                 ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
-                                : 'border-gray-200 hover:border-gray-400 hover:shadow'">
+                                : 'border-gray-200 {{ $isFinished ? 'opacity-60 cursor-not-allowed' : 'hover:border-gray-400 hover:shadow' }}'">
                         @if($soldOut)
                             <span class="absolute top-4 right-4 text-xs px-3 py-1 rounded-full bg-red-100 text-red-600">
                                 SOLD OUT
@@ -194,7 +199,7 @@
 
             <!-- tombol bawah: masih bisa alert dulu -->
             <div class="flex justify-center items-center mt-12 mb-20">
-                <button type="button" :disabled="!selectedCp" @click="
+                <button type="button" :disabled="!selectedCp || {{ $isFinished ? 'true' : 'false' }}" @click="
             Swal.fire({
                 title: 'Confirm your ticket',
                 text: 'You are about to continue with the selected ticket category.',
@@ -210,8 +215,8 @@
             })
         " class="rounded-[36.55px] text-white py-3 w-full max-w-5xl transition" :class="selectedCp 
             ? 'bg-blacktext hover:bg-gray-700' 
-            : 'bg-gray-300 cursor-not-allowed'">
-                    Select Ticket
+            : '{{ $isFinished ? 'bg-red-400 cursor-not-allowed' : 'bg-gray-300 cursor-not-allowed' }}'">
+                    {{ $isFinished ? 'Concert Ended' : 'Select Ticket' }}
                 </button>
             </div>
 

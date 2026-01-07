@@ -18,6 +18,11 @@ class Category extends Model
 
     public function concerts()
     {
-        return $this->hasMany(Concert::class, 'idgroup', 'idgroup');
+        return $this->hasMany(Concert::class, 'category_id', 'idgroup');
+    }
+
+    public function latestConcert()
+    {
+        return $this->hasOne(Concert::class, 'category_id', 'idgroup')->latestOfMany('concert_date');
     }
 }

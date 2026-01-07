@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="min-h-screen flex bg-secondary">
-
         <!-- Sidebar -->
         <aside class="w-64 bg-white text-[#273240] flex flex-col">
             <div class="h-16 flex items-center px-6 text-xl font-semibold border-b">
@@ -21,8 +20,8 @@
                 </a>
 
                 <a href="{{ route('admin.concertmanage') }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
-                    <img src="{{ asset('doc.svg') }}" alt=""><span>Concert Management</span>
+                    class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 text-[#707FDD]">
+                    <img src="{{ asset('docblack.svg') }}"><span>Concert Management</span>
                 </a>
 
                 <a href="{{ route('admin.ticketmanage') }}"
@@ -31,7 +30,7 @@
                 </a>
                 
                 <a href="{{ route('admin.categorymanage') }}"
-                    class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 text-[#707FDD]">
+                    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 hover:font-semibold hover:text-[#707FDD] transition">
                     <img src="{{ asset('docblack.svg') }}" alt=""><span>Category Management</span>
                 </a>
 
@@ -58,8 +57,8 @@
             <div class="p-8">
                 <!-- Header -->
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-[#273240]">Add New Category</h1>
-                    <p class="text-gray-500 mt-1">Create a new artist or group category</p>
+                    <h1 class="text-3xl font-bold text-[#273240]">Add New Concert</h1>
+                    <p class="text-gray-500 mt-1">Create a new concert event</p>
                 </div>
 
                 <!-- Success/Error Messages -->
@@ -81,13 +80,13 @@
 
                 <!-- Form Card -->
                 <div class="bg-white rounded-xl shadow-sm p-8">
-                    <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.concert.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <!-- Left Column - Image Upload -->
                             <div class="lg:col-span-1">
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Category Image</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Concert Image</label>
                                 <div class="flex flex-col items-center gap-4">
                                     <div id="imagePreview" class="w-full aspect-square rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300">
                                         <span class="text-gray-400 text-center px-4">
@@ -98,88 +97,103 @@
                                         </span>
                                     </div>
 
-                                    <label for="groupimg" class="cursor-pointer bg-[#707FDD] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#5f6bc9] transition w-full text-center">
+                                    <label for="image" class="cursor-pointer bg-[#707FDD] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#5f6bc9] transition w-full text-center">
                                         <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                         </svg>
                                         Upload Image
                                     </label>
 
-                                    <input type="file" name="groupimg" id="groupimg" class="hidden" accept="image/*" required>
+                                    <input type="file" name="image" id="image" class="hidden" accept="image/*" required>
                                     <p class="text-xs text-gray-500 text-center">Supported: JPG, PNG, WEBP (Max: 2MB)</p>
                                 </div>
                             </div>
 
                             <!-- Right Column - Form Fields -->
                             <div class="lg:col-span-2 space-y-5">
-                                <!-- Group Name -->
+                                <!-- Concert Name -->
                                 <div>
-                                    <label for="groupname" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        Group Name <span class="text-red-500">*</span>
+                                    <label for="concert_name" class="block text-sm font-semibold text-gray-700 mb-2">
+                                        Concert Name <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="groupname" id="groupname" value="{{ old('groupname') }}"
+                                    <input type="text" name="concert_name" id="concert_name" value="{{ old('concert_name') }}"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
-                                        placeholder="e.g., BTS, BLACKPINK" required>
+                                        placeholder="e.g., LIVE TOUR - SYNK: aespa" required>
                                 </div>
 
-                                <!-- Type -->
-                                <div>
-                                    <label for="type" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        Type of Group <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="type" id="type" 
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition" required>
-                                        <option value="" disabled selected>Select Type</option>
-                                        <option value="Boygroup" {{ old('type') == 'Boygroup' ? 'selected' : '' }}>Boygroup</option>
-                                        <option value="Girlgroup" {{ old('type') == 'Girlgroup' ? 'selected' : '' }}>Girlgroup</option>
-                                        <option value="Co-ed group" {{ old('type') == 'Co-ed group' ? 'selected' : '' }}>Co-ed group</option>
-                                        <option value="Band" {{ old('type') == 'Band' ? 'selected' : '' }}>Band</option>
-                                        <option value="Soloist" {{ old('type') == 'Soloist' ? 'selected' : '' }}>Soloist</option>
-                                    </select>
+                                <!-- Date and Time -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="concert_date" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            Concert Date <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="date" name="concert_date" id="concert_date" value="{{ old('concert_date') }}"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                            required>
+                                    </div>
+
+                                    <div>
+                                        <label for="concert_time" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            Concert Time <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="time" name="concert_time" id="concert_time" value="{{ old('concert_time') }}"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                            required>
+                                    </div>
                                 </div>
 
-                                <!-- Debut Year -->
-                                <div>
-                                    <label for="debut" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        Debut Era <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="debut" id="debut" 
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition" required>
-                                        <option value="" disabled selected>Select Era</option>
-                                        <option value="1st Gen / pre-2010" {{ old('debut') == '1st Gen / pre-2010' ? 'selected' : '' }}>1st Gen / pre-2010</option>
-                                        <option value="2010-2015" {{ old('debut') == '2010-2015' ? 'selected' : '' }}>2010-2015</option>
-                                        <option value="2016-2020" {{ old('debut') == '2016-2020' ? 'selected' : '' }}>2016-2020</option>
-                                        <option value="2021-present" {{ old('debut') == '2021-present' ? 'selected' : '' }}>2021-present</option>
-                                    </select>
+                                <!-- Venue and City -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="venue" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            Venue <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" name="venue" id="venue" value="{{ old('venue') }}"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                            placeholder="e.g., Gelora Bung Karno" required>
+                                    </div>
+
+                                    <div>
+                                        <label for="city" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            City <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" name="city" id="city" value="{{ old('city') }}"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                            placeholder="e.g., JAKARTA" required>
+                                    </div>
                                 </div>
 
-                                <!-- Agency -->
-                                <div>
-                                    <label for="agency" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        Agency <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="agency" id="agency" 
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition" required>
-                                        <option value="" disabled selected>Select Agency</option>
-                                        <option value="HYBE" {{ old('agency') == 'HYBE' ? 'selected' : '' }}>HYBE</option>
-                                        <option value="JYP" {{ old('agency') == 'JYP' ? 'selected' : '' }}>JYP</option>
-                                        <option value="SM" {{ old('agency') == 'SM' ? 'selected' : '' }}>SM</option>
-                                        <option value="YG" {{ old('agency') == 'YG' ? 'selected' : '' }}>YG</option>
-                                    </select>
-                                </div>
+                                <!-- Status and Category -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="status_concert" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            Status <span class="text-red-500">*</span>
+                                        </label>
+                                        <select name="status_concert" id="status_concert"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                            required>
+                                            <option value="Upcoming" {{ old('status_concert') == 'Upcoming' ? 'selected' : '' }}>Upcoming</option>
+                                            <option value="Ongoing" {{ old('status_concert') == 'Ongoing' ? 'selected' : '' }}>Ongoing</option>
+                                            <option value="Finished" {{ old('status_concert') == 'Finished' ? 'selected' : '' }}>Finished</option>
+                                            <option value="Cancelled" {{ old('status_concert') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                        </select>
+                                    </div>
 
-                                <!-- Popularity -->
-                                <div>
-                                    <label for="popular" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        Popularity/Status <span class="text-red-500">*</span>
-                                    </label>
-                                    <select name="popular" id="popular" 
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition" required>
-                                        <option value="" disabled selected>Select Status</option>
-                                        <option value="mostp" {{ old('popular') == 'mostp' ? 'selected' : '' }}>Most Popular</option>
-                                        <option value="trend" {{ old('popular') == 'trend' ? 'selected' : '' }}>Trending</option>
-                                        <option value="new" {{ old('popular') == 'new' ? 'selected' : '' }}>New Comers</option>
-                                    </select>
+                                    <div>
+                                        <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            Category <span class="text-red-500">*</span>
+                                        </label>
+                                        <select name="category_id" id="category_id"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#707FDD] focus:border-transparent transition"
+                                            required>
+                                            <option value="">-- Select Category --</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->idgroup }}" {{ old('category_id') == $category->idgroup ? 'selected' : '' }}>
+                                                    {{ $category->groupname }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -191,10 +205,10 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
-                                Create Category
+                                Create Concert
                             </button>
 
-                            <a href="{{ route('admin.categorymanage') }}"
+                            <a href="{{ route('admin.concertmanage') }}"
                                 class="bg-gray-100 text-gray-700 font-semibold px-8 py-3 rounded-lg hover:bg-gray-200 transition flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -210,7 +224,7 @@
 
     <script>
         // Image Preview Functionality
-        document.getElementById('groupimg').addEventListener('change', function(e) {
+        document.getElementById('image').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
