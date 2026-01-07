@@ -51,8 +51,244 @@
         </aside>
 
         <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-8">
+                <h1 class="text-3xl font-bold text-[#273240] mb-8">Dashboard</h1>
+
+                <!-- Revenue and Order Time Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Revenue Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h2 class="text-gray-600 text-sm mb-2">Revenue</h2>
+                                <p class="text-3xl font-bold text-[#273240]">IDR {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+                                <p class="{{ $revenueGrowth >= 0 ? 'text-green-500' : 'text-red-500' }} text-sm mt-1">
+                                    <span class="inline-flex items-center">
+                                        @if($revenueGrowth >= 0)
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                        </svg>
+                                        @else
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                        </svg>
+                                        @endif
+                                        {{ abs($revenueGrowth) }}% vs last 12 days
+                                    </span>
+                                </p>
+                                <p class="text-gray-400 text-xs mt-2">Sales from {{ now()->subDays(11)->format('d M, Y') }} - {{ now()->format('d M, Y') }}</p>
+                            </div>
+                            <button class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
+                                View Report
+                            </button>
+                        </div>
+                        <div class="relative h-64">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                        <div class="flex items-center justify-center gap-6 mt-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-[#707FDD]"></div>
+                                <span class="text-sm text-gray-600">Last 12 days</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-[#C8CFEC]"></div>
+                                <span class="text-sm text-gray-600">Previous 12 days</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Time Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h2 class="text-gray-600 text-sm mb-2">Order Time</h2>
+                                <p class="text-gray-400 text-xs mt-1">From 1-20 Jan, 2026</p>
+                            </div>
+                            <button class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
+                                View Report
+                            </button>
+                        </div>
+                        <div class="relative h-64 flex items-center justify-center">
+                            <canvas id="orderTimeChart"></canvas>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 mt-6">
+                            <div class="text-center">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <div class="w-3 h-3 rounded-full bg-[#707FDD]"></div>
+                                    <span class="text-sm text-gray-600">Afternoon</span>
+                                </div>
+                                <p class="text-lg font-semibold text-[#273240]">{{ $orderTimeData['afternoon'] }}%</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <div class="w-3 h-3 rounded-full bg-[#9BA5D8]"></div>
+                                    <span class="text-sm text-gray-600">Evening</span>
+                                </div>
+                                <p class="text-lg font-semibold text-[#273240]">{{ $orderTimeData['evening'] }}%</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center gap-2 mb-1">
+                                    <div class="w-3 h-3 rounded-full bg-[#C8CFEC]"></div>
+                                    <span class="text-sm text-gray-600">Morning</span>
+                                </div>
+                                <p class="text-lg font-semibold text-[#273240]">{{ $orderTimeData['morning'] }}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Most Ticket Sales Section -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-xl font-bold text-[#273240] mb-2">Most Ticket Sales</h2>
+                    <p class="text-gray-400 text-sm mb-6">Adipiscing elit, sed do eiusmod tempor</p>
+                    
+                    <div class="space-y-4">
+                        @php
+                            $gradients = [
+                                'from-yellow-400 to-orange-500',
+                                'from-red-400 to-pink-500',
+                                'from-pink-400 to-purple-500',
+                                'from-orange-400 to-red-500',
+                            ];
+                        @endphp
+                        
+                        @forelse($topConcerts as $index => $concert)
+                        <!-- Ticket Item {{ $index + 1 }} -->
+                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $gradients[$index % 4] }} flex items-center justify-center text-white font-bold">
+                                    {{ strtoupper(substr($concert->concert_name, 0, 1)) }}
+                                </div>
+                                <span class="text-[#273240] font-medium">{{ $concert->concert_name }}</span>
+                            </div>
+                            <span class="text-gray-600 font-semibold">IDR {{ number_format($concert->ticket_price, 0, ',', '.') }}</span>
+                        </div>
+                        @empty
+                        <div class="text-center py-8 text-gray-400">
+                            <p>No ticket sales data available</p>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </main>
 
     </div>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <script>
+        // Revenue Bar Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                datasets: [
+                    {
+                        label: 'Last 12 days',
+                        data: @json($currentPeriodData),
+                        backgroundColor: '#707FDD',
+                        borderRadius: 6,
+                        barThickness: 12,
+                    },
+                    {
+                        label: 'Previous 12 days',
+                        data: @json($previousPeriodData),
+                        backgroundColor: '#C8CFEC',
+                        borderRadius: 6,
+                        barThickness: 12,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#273240',
+                        padding: 12,
+                        cornerRadius: 8,
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': IDR ' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#9CA3AF'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#F3F4F6',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#9CA3AF',
+                            callback: function(value) {
+                                return value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Order Time Donut Chart
+        const orderTimeCtx = document.getElementById('orderTimeChart').getContext('2d');
+        const orderTimeChart = new Chart(orderTimeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Afternoon', 'Evening', 'Morning'],
+                datasets: [{
+                    data: [@json($orderTimeData['afternoon']), @json($orderTimeData['evening']), @json($orderTimeData['morning'])],
+                    backgroundColor: [
+                        '#707FDD',
+                        '#9BA5D8',
+                        '#C8CFEC'
+                    ],
+                    borderWidth: 0,
+                    cutout: '75%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#273240',
+                        padding: 12,
+                        cornerRadius: 8,
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
     <script>
         function confirmLogout() {
             Swal.fire({

@@ -28,14 +28,17 @@
 </div>
     <!-- SEARCH BAR -->
     <x-slot:search>
-    <div class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
-        <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
+    <form action="{{ route('category.index') }}" method="GET" class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
+        <button type="submit">
+            <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
+        </button>
         <input
         type="text"
+        name="search"
         placeholder="Search"
         class="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none font-dmsans text-blacktext"
     />
-</div>
+    </form>
 </x-slot:search>
 
 <x-slot:right>
