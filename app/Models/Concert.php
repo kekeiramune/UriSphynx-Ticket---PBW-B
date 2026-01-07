@@ -9,6 +9,7 @@ use App\Models\Concert_Price;
 class Concert extends Model
 {
     protected $table = 'concerts';
+    public $timestamps = false;
     protected $primaryKey = 'id_concert';
     protected $fillable = [
         'concert_name',

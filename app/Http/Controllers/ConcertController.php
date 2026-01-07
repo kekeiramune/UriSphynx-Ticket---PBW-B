@@ -16,9 +16,13 @@ class ConcertController extends Controller
     {
         $concerts = Concert::with('category')->findOrFail($id_concert);
 
+        if (\Carbon\Carbon::parse($concerts->concert_time)->isPast() && $concerts->status_concert !== 'Finished') {
+            $concerts->status_concert = 'Finished';
+            $concerts->save();
+        }
+
         $prices = Concert_Price::with('seating')
             ->where('id_concert', $id_concert)
-            ->where('status_seating', 'Available') // opsional kalau ada
             ->get();
 
         return view('concert-page', compact('concerts', 'prices'));

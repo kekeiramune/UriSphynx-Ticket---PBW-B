@@ -35,6 +35,19 @@ Route::get('/category', [CategoryController::class, 'index'])
 
 Route::get('/', function () {
     $concerts = Concert::with('category')->get();
+    
+    // Auto-update status for landing page
+    foreach ($concerts as $concert) {
+        if (\Carbon\Carbon::parse($concert->concert_time)->isPast() && $concert->status_concert !== 'Finished') {
+            $concert->update(['status_concert' => 'Finished']);
+        }
+    }
+    
+    // Re-fetch or refresh fetching isn't strictly necessary since update() doesn't mutate the instance in-place fully for all fields in all versions, 
+    // but the status_concert attribute on $concert should be updated by the update() call in standard Eloquent.
+    // However, to be extra safe and ensure view gets clean data:
+    $concerts = Concert::with('category')->get();
+
     $category = Category::all();
     return view('welcome', compact('concerts', 'category'));
 });
@@ -42,8 +55,16 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboardadmin'])->name('admin.dashboardadmin');
-    Route::get('/transactions', [AdminController::class, 'transactions'])->name('admin.transadmin');
+    
+    // Concert Management Routes
     Route::get('/concertmanage', [AdminController::class, 'concertmanage'])->name('admin.concertmanage');
+    Route::get('/concert/create', [AdminController::class, 'createConcert'])->name('admin.concert.create');
+    Route::post('/concert/store', [AdminController::class, 'storeConcert'])->name('admin.concert.store');
+    Route::get('/concert/{id}/edit', [AdminController::class, 'editConcert'])->name('admin.concert.edit');
+    Route::put('/concert/{id}/update', [AdminController::class, 'updateConcert'])->name('admin.concert.update');
+    Route::post('/concert/{id}/delete', [AdminController::class, 'deleteConcert'])->name('admin.concert.delete');
+    
+    Route::get('/transactions', [AdminController::class, 'transactions'])->name('admin.transadmin');
     Route::get('/ticketmanage', [AdminController::class, 'ticketmanage'])->name('admin.ticketmanage');
     Route::get('/accountmanage', [AdminController::class, 'accountmanage'])->name('admin.accountmanage');
     Route::get('/editprofadmin', [AdminController::class, 'editprofadmin'])->name('admin.editprofadmin');
@@ -55,6 +76,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         ->name('admin.ticket.create');
     Route::post('/concertmanage/store', [AdminController::class, 'storeTicket'])
         ->name('admin.ticket.store');
+    
+    // Ticket Price Management Routes
+    Route::get('/ticketprice/create', [AdminController::class, 'createTicketPrice'])
+        ->name('admin.ticketprice.create');
+    Route::post('/ticketprice/store', [AdminController::class, 'storeTicketPrice'])
+        ->name('admin.ticketprice.store');
+    Route::post('/ticket/{id}/delete', [AdminController::class, 'deleteTicket'])
+        ->name('admin.ticket.delete');
+    
     Route::get('/categorymanage', [AdminController::class, 'showCategory'])
         ->name('admin.categorymanage');
 
