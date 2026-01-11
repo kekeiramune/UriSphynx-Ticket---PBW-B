@@ -90,11 +90,13 @@
 
                 <!-- SEARCH BAR -->
                 <x-slot:search>
-                    <div class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
-                        <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70">
-                        <input type="text" placeholder="Search"
+                    <form action="{{ route('category.index') }}" method="GET" class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
+                        <button type="submit">
+                            <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70">
+                        </button>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search"
                                class="w-full bg-transparent border-none focus:outline-none outline-none focus:ring-0 focus:border-none font-dmsans text-blacktext" />
-                    </div>
+                    </form>
                 </x-slot:search>
 
             </x-navbar>
@@ -133,159 +135,119 @@
     </div>
 
     <div class="flex justify-center gap-5 mt-10 mb-5">
-        <div class="w-[1000px] bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
-            <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70">
-            <input type="text" placeholder="Search for groups"
+        <form action="{{ route('category.index') }}" method="GET" class="w-[1000px] bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
+            <button type="submit">
+                <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70">
+            </button>
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for groups"
                    class="w-full bg-transparent outline-none focus:outline-none focus:ring-0 focus:border-none border-none font-dmsans text-blacktext">
-        </div>
+            
+            <!-- Preserve other filters when searching -->
+            @if(request('type')) <input type="hidden" name="type" value="{{ request('type') }}"> @endif
+        </form>
 
         <button @click="filterOpen = !filterOpen">
             <img class="w-10 h-10" src="{{ asset('filter.svg') }}">
         </button>
 
         <div x-show="filterOpen" x-transition
-            x-effect="
-        if (!filterOpen) {
-            document.querySelectorAll('.check-icon').forEach(i => {
-                i.src = '{{ asset('uncheck.svg') }}';
-            });
-        }
-    "
-             class="fixed top-20 right-10 w-80 bg-white shadow-xl rounded-2xl p-5 z-[999] border
-            max-h-[80vh] overflow-y-auto"
-             @click.away="filterOpen = false">
+             class="fixed top-20 right-10 w-80 bg-white shadow-xl rounded-2xl p-5 z-[999] border max-h-[80vh] overflow-y-auto"
+             @click.away="filterOpen = false" style="display: none;">
+            
+            <form action="{{ route('category.index') }}" method="GET">
+                <!-- Preserve Search and Type -->
+                @if(request('search')) <input type="hidden" name="search" value="{{ request('search') }}"> @endif
+                @if(request('type')) <input type="hidden" name="type" value="{{ request('type') }}"> @endif
 
-            <h2 class="mt-5 font-semibold text-lg mb-3">Debut Year</h2>
+                <h2 class="mt-5 font-semibold text-lg mb-3">Debut Year</h2>
+                <div class="space-y-3 max-h-72 overflow-auto">
+                    @foreach([
+                        'pre_2010' => '1st Gen / pre-2010',
+                        '2010_2015' => '2010-2015',
+                        '2016_2020' => '2016-2020',
+                        '2021_plus' => '2021+'
+                    ] as $val => $label)
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <span>{{ $label }}</span>
+                            <input type="checkbox" name="debut_year[]" value="{{ $val }}" 
+                                   class="hidden peer" 
+                                   {{ in_array($val, (array)request('debut_year')) ? 'checked' : '' }}>
+                            <div class="w-6 h-6 border-2 border-gray-300 rounded-md peer-checked:bg-secondary peer-checked:border-secondary flex items-center justify-center">
+                                <img src="{{ asset('check.svg') }}" class="w-4 h-4 opacity-0 peer-checked:opacity-100 invert">
+                            </div>
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
 
-            <div class="space-y-3 max-h-72 overflow-auto">
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>1st Gen / pre-2010</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
+                <h2 class="mt-5 font-semibold text-lg mb-3">Agency</h2>
+                <div class="space-y-3 max-h-72 overflow-auto">
+                    @foreach(['JYP', 'SM', 'YG', 'HYBE', 'Cube'] as $agency)
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <span>{{ $agency }}</span>
+                            <input type="checkbox" name="agency[]" value="{{ $agency }}" 
+                                   class="hidden peer"
+                                   {{ in_array($agency, (array)request('agency')) ? 'checked' : '' }}>
+                             <div class="w-6 h-6 border-2 border-gray-300 rounded-md peer-checked:bg-secondary peer-checked:border-secondary flex items-center justify-center">
+                                <img src="{{ asset('check.svg') }}" class="w-4 h-4 opacity-0 peer-checked:opacity-100 invert">
+                            </div>
+                        </label>
                     </div>
+                    @endforeach
                 </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>2010-2015</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>2016-2020</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>2021+</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>2021+</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <h2 class="mt-5 font-semibold text-lg mb-3">Agency</h2>
+                <h2 class="mt-5 font-semibold text-lg mb-3">Sort By</h2>
+                <div class="space-y-3 max-h-72 overflow-auto">
+                    @foreach([
+                        'popular' => 'Most Popular',
+                        'trending' => 'Trending',
+                        'newest' => 'Newly Added'
+                    ] as $val => $label)
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <span>{{ $label }}</span>
+                            <input type="radio" name="sort" value="{{ $val }}" 
+                                   class="hidden peer"
+                                   {{ request('sort') == $val ? 'checked' : '' }}>
+                             <div class="w-6 h-6 rounded-full border-2 border-gray-300 peer-checked:bg-secondary peer-checked:border-secondary"></div>
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
 
-            <div class="space-y-3 max-h-72 overflow-auto">
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>JYP</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>SM</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>YG</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="mt-4 w-full bg-secondary text-white py-2 rounded-[36px] mb-2 hover:bg-customHover">
+                    Apply
+                </button>
 
-            <h2 class="mt-5 font-semibold text-lg mb-3">Popularity</h2>
-
-            <div class="space-y-3 max-h-72 overflow-auto">
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>Most Popular</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>Trending</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-                <div class="p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center justify-between">
-                        <span>Newly Added</span>
-                        <button>
-                            <img src="{{ asset('uncheck.svg') }}" class="check-icon w-6 h-6">
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <button class="mt-4 w-full bg-secondary text-white py-2 rounded-[36px] mb-2"
-                    @click="filterOpen = false">
-                Apply
-            </button>
-
-            <button class="mt-4 w-full bg-secondary text-white py-2 rounded-[36px]"
-                    @click="filterOpen = false">
-                Reset
-            </button>
+                <a href="{{ route('category.index') }}" class="block text-center mt-2 w-full bg-gray-200 text-gray-700 py-2 rounded-[36px] hover:bg-gray-300">
+                    Reset
+                </a>
+            </form>
         </div>
     </div>
 
     <!-- CATEGORY BUTTONS -->
-    <div class="flex justify-center gap-10 mb-10">
+    <div class="flex justify-center flex-wrap gap-4 md:gap-10 mb-10">
+        <!-- 'All' Button -->
+        <a href="{{ route('category.index', array_merge(request()->except('type'))) }}" 
+           class="relative transition-all duration-200 py-2 px-4 rounded-full shadow-md font-semibold
+           {{ !request('type') ? 'bg-secondary text-white' : 'bg-white hover:bg-customHover hover:text-white text-blacktext' }}">
+            All
+        </a>
+
         @foreach (['Girlgroup','Boygroup','Co-ed group','Band','Soloist'] as $cat)
-            <button class="relative bg-white hover:bg-customHover hover:text-white text-blacktext font-semibold py-2 px-4 rounded-full shadow-md">
+            <a href="{{ route('category.index', array_merge(request()->query(), ['type' => $cat])) }}" 
+               class="relative transition-all duration-200 py-2 px-4 rounded-full shadow-md font-semibold
+               {{ request('type') == $cat ? 'bg-secondary text-white' : 'bg-white hover:bg-customHover hover:text-white text-blacktext' }}">
                 {{ $cat }}
-            </button>
+            </a>
         @endforeach
     </div>
 
     <!-- CATEGORY CARDS -->
-<<<<<<< HEAD
     <x-category.container1c :category="$category"/>
-=======
-    <x-category.container1c />
-    <x-category.container1c />
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 
     <!-- FOOTER -->
     <x-footer>

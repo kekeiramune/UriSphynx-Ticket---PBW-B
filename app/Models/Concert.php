@@ -3,18 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
 use App\Models\Concert_Price;
 
 
 class Concert extends Model
 {
     protected $table = 'concerts';
-=======
-
-class Concert extends Model
-{
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
     protected $primaryKey = 'id_concert';
     protected $fillable = [
         'concert_name',
@@ -28,7 +22,6 @@ class Concert extends Model
 
     public function category()
     {
-<<<<<<< HEAD
         return $this->belongsTo(Category::class, 'category_id');
     }
     public function prices()
@@ -39,15 +32,11 @@ class Concert extends Model
     {
         return $this->belongsToMany(
             Seating::class,
-            'concert_seating',   // pivot table
-            'concert_id',
-            'seating_id'
-        )->withPivot('price');
+            'concert_price',     // Correct table name
+            'id_concert',        // Foreign key on pivot table for parent
+            'id_seating'         // Foreign key on pivot table for related model
+        )->withPivot(['id_price', 'ticket_price', 'quota', 'sold', 'status_seating']);
     }
 
 
-=======
-        return $this->belongsTo(Category::class);
-    }
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 }

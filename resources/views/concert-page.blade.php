@@ -1,18 +1,20 @@
-<<<<<<< HEAD
 @props(['concerts', 'prices'])
 
 <x-guest-layout>
     <div x-data="{ notifOpen: false }">
         <!-- HERO -->
-        <div class="w-full flex justify-center">
-            <div class="max-w-[1900px] w-full h-[650px] p-10 rounded-[70px] bg-secondary shadow-lg relative">
+        <div class="w-full flex justify-center px-4 md:px-0">
+            <div
+                class="max-w-[1900px] w-full min-h-[650px] p-5 md:p-10 rounded-[30px] md:rounded-[70px] bg-secondary shadow-lg relative flex flex-col md:block">
                 <x-navbar>
                     <!-- LEFT MENU -->
-                    <a class="transition-all duration-200 hover:text-white hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold"
-                        href="{{ route('home') }}">Home</a>
+                    <div class="flex gap-4">
+                        <a class="transition-all duration-200 hover:text-white hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold"
+                            href="{{ route('home') }}">Home</a>
 
-                    <a class="transition-all duration-200 hover:text-white hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold"
-                        href="#">Seating</a>
+                        <a class="transition-all duration-200 hover:text-white hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold"
+                            href="#">Seating</a>
+                    </div>
 
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center gap-1">
@@ -28,14 +30,15 @@
                     </div>
 
                     <x-slot:right>
-                        <div class="flex justify-end gap-5 text-xl">
+                        <div class="flex justify-end gap-3 md:gap-5 text-xl items-center">
                             <button @click="window.dispatchEvent(new CustomEvent('notif-open'))">
-                                <img class="w-8 h-8 relative" src="{{ asset('notif.svg') }}" alt="">
+                                <img class="w-6 h-6 md:w-8 md:h-8 relative" src="{{ asset('notif.svg') }}" alt="">
                             </button>
 
                             <!-- NOTIFICATION DROPDOWN -->
                             <div x-data="{ open: false }" @notif-open.window="open = true" x-show="open"
-                                class="fixed top-20 right-10 w-80 bg-white shadow-xl rounded-2xl p-5 z-[999] border">
+                                class="fixed top-20 right-4 md:right-10 w-72 md:w-80 bg-white shadow-xl rounded-2xl p-5 z-[999] border"
+                                style="display: none;">
                                 <h2 class="font-semibold text-lg mb-3">Notifications</h2>
 
                                 <div class="space-y-3 max-h-72 overflow-auto">
@@ -59,9 +62,9 @@
                             <!-- PROFILE DROPDOWN -->
                             <div x-data="{ openProfile: false }" class="relative ml-auto">
                                 <button @click="openProfile = !openProfile" class="flex items-center gap-2">
-                                    <img src="{{ asset('profile.svg') }}" class="w-9 h-9 rounded-full object-cover"
-                                        alt="">
-                                    <span>
+                                    <img src="{{ asset('profile.svg') }}"
+                                        class="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover" alt="">
+                                    <span class="hidden md:inline">
                                         @if(Auth::check())
                                             {{ Auth::user()->name }}
                                         @endif
@@ -69,7 +72,8 @@
                                 </button>
 
                                 <div x-show="openProfile" x-transition @click.away="openProfile = false"
-                                    class="absolute right-0 bg-white shadow-lg rounded-lg mt-2 p-3 w-44 z-50 origin-top">
+                                    class="absolute right-0 bg-white shadow-lg rounded-lg mt-2 p-3 w-44 z-50 origin-top"
+                                    style="display: none;">
                                     <a href="{{ route('dashboard') }}"
                                         class="block px-3 py-2 hover:bg-gray-100 rounded">Dashboard</a>
                                     <form method="POST" action="{{ route('logout') }}">
@@ -84,58 +88,69 @@
                     </x-slot:right>
 
                     <x-slot:search>
-                        <div class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
-                            <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
-                            <input type="text" placeholder="Search"
-                                class="w-full bg-transparent border-none outline-none focus:ring-0 font-dmsans text-blacktext" />
-                        </div>
+                        <form action="{{ route('category.index') }}" method="GET"
+                            class="w-full bg-white rounded-full px-4 md:px-8 py-2 flex items-center gap-3 shadow transition-all">
+                            <button type="submit">
+                                <img src="{{ asset('search.svg') }}" class="w-4 h-4 md:w-5 md:h-5 opacity-70" alt="">
+                            </button>
+                            <input type="text" name="search" placeholder="Search"
+                                class="w-full bg-transparent border-none outline-none focus:ring-0 font-dmsans text-blacktext text-sm md:text-base" />
+                        </form>
                     </x-slot:search>
                 </x-navbar>
 
-                <img class="absolute rounded-[29.273px] w-[592px] h-[380px] top-[120px] mt-[50px] left-10"
-                    src="{{ asset('h2h.jpeg') }}" alt="">
+                <!-- Hero Content Responsive -->
+                <div class="flex flex-col md:block mt-8 md:mt-0 relative">
+                    <!-- Image -->
+                    <img class="relative md:absolute rounded-[20px] md:rounded-[29.273px] w-full max-w-[90%] md:w-[45%] lg:w-[592px] h-auto md:h-[380px] md:top-[120px] md:mt-[50px] md:left-10 shadow-lg md:shadow-none mx-auto z-10"
+                        src="{{ asset('h2h.jpeg') }}" alt="">
 
-                <div
-                    class="absolute right-10 top-[180px] mt-[60px] text-basetext font-bold text-[48px] leading-[56px] flex flex-col gap-6">
-                    <h1>Transaksi aman,</h1>
-                    <span>nonton konser nyaman</span>
-                </div>
-
-                <div
-                    class="absolute left-[700px] bottom-10 top-[350px] mt-[60px] w-[550px] text-basetext font-normal text-[18px] leading-[28px]">
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-
-                <div class="absolute bottom-10 right-[200px] flex gap-4">
-                    <div class="mt-16 mb-3">
-                        <button
-                            class="bg-white hover:bg-customHover text-blacktext font-semibold py-3 px-6 rounded-[36.55px] shadow-md">
-                            Get Started
-                        </button>
+                    <!-- Text: Transaksi Aman -->
+                    <div
+                        class="relative md:absolute md:right-10 md:top-[180px] md:mt-[60px] text-basetext font-bold text-3xl md:text-[48px] leading-tight md:leading-[56px] flex flex-col gap-2 md:gap-6 text-center md:text-left mt-10 md:mt-0 z-20">
+                        <h1>Transaksi aman,</h1>
+                        <span>nonton konser nyaman</span>
                     </div>
-                    <div class="mt-16 mb-3">
-                        <a href="{{ route('login') }}"
-                            class="bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center gap-2 shadow-md">
-                            Sign in Now
-                            <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]" alt="icon">
-                        </a>
+
+                    <!-- Text: Lorem Ipsum -->
+                    <div
+                        class="relative md:absolute md:left-[55%] lg:left-[700px] md:bottom-10 md:top-[350px] md:mt-[60px] w-full md:w-[40%] lg:w-[550px] text-basetext font-normal text-sm md:text-[18px] leading-relaxed md:leading-[28px] text-center md:text-left mt-6 md:mt-0 px-4 md:px-0 z-20">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div
+                        class="relative md:absolute bottom-0 md:bottom-10 md:right-[200px] flex flex-col md:flex-row gap-4 justify-center items-center mt-10 mb-5 md:mt-0 md:mb-0 z-30">
+                        <div class="w-full md:w-auto px-4 md:px-0">
+                            <button
+                                class="w-full md:w-auto bg-white hover:bg-customHover text-blacktext font-semibold py-3 px-6 rounded-[36.55px] shadow-md border border-gray-100">
+                                Get Started
+                            </button>
+                        </div>
+                        <div class="w-full md:w-auto px-4 md:px-0">
+                            <a href="{{ route('login') }}"
+                                class="w-full md:w-auto bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center justify-center gap-2 shadow-md">
+                                Sign in Now
+                                <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]" alt="icon">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- DETAIL CONCERT -->
-        <div class="text-center mb-8 mt-[100px] text-4xl font-bold text-blacktext">
-            <p class="text-xl font-normal mb-3 uppercase">
+        <div class="text-center mb-8 mt-[50px] md:mt-[100px] text-2xl md:text-4xl font-bold text-blacktext px-4">
+            <p class="text-lg md:text-xl font-normal mb-3 uppercase">
                 {{ $concerts->category->type ?? 'Uncategorized' }}
             </p>
             <h1 class="mb-3">{{ $concerts->concert_name }}</h1>
-            <p class="text-lg">{{ $concerts->venue }} - {{ $concerts->concert_date }}</p>
+            <p class="text-base md:text-lg">{{ $concerts->venue }} - {{ $concerts->concert_date }}</p>
         </div>
 
-        <div class="w-full flex justify-center">
-            <img class="h-[450px] w-[900px] rounded-[20px]"
-                src="https://kpop-center.com/wp-content/uploads/2024/09/aespa_main-2.png" alt="">
+        <div class="w-full flex justify-center px-4">
+            <img class="w-full max-w-5xl h-64 md:h-[450px] rounded-[20px] object-cover shadow-lg"
+                src="{{ asset('storage/' . $concerts->image) }}" alt="{{ $concerts->concert_name }}">
         </div>
 
         <!-- ✅ SEAT SELECT CLEAN -->
@@ -144,6 +159,9 @@
             <h2 class="text-center font-semibold mb-10">Select Ticket Category :</h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                @php
+                    $isFinished = $concerts->status_concert == 'Finished';
+                @endphp
                 @forelse($prices as $p)
                     @php
                         $remaining = max(0, $p->quota - $p->sold);
@@ -151,11 +169,11 @@
                         $cpId = $p->getKey();
                     @endphp
 
-                    <div @click="if(!{{ $soldOut ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
+                    <div @click="if(!{{ $soldOut || $isFinished ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
                         class="relative rounded-3xl border p-14 bg-white text-center cursor-pointer transition select-none"
                         :class="selectedCp === {{ $cpId }}
-                            ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
-                            : 'border-gray-200 hover:border-gray-400 hover:shadow'">
+                                                ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
+                                                : 'border-gray-200 {{ $isFinished ? 'opacity-60 cursor-not-allowed' : 'hover:border-gray-400 hover:shadow' }}'">
                         @if($soldOut)
                             <span class="absolute top-4 right-4 text-xs px-3 py-1 rounded-full bg-red-100 text-red-600">
                                 SOLD OUT
@@ -195,12 +213,27 @@
 
             <!-- tombol bawah: masih bisa alert dulu -->
             <div class="flex justify-center items-center mt-12 mb-20">
-                <button type="button" :disabled="!selectedCp" @click="alert('Selected Concert Price ID: ' + selectedCp)"
-                    class="rounded-[36.55px] text-white py-3 w-full max-w-5xl transition"
-                    :class="selectedCp ? 'bg-blacktext hover:bg-gray-700' : 'bg-gray-300 cursor-not-allowed'">
-                    <a href="{{ route('payment.form', $concerts->id_concert) }}">Select Ticket</a>
+                <button type="button" :disabled="!selectedCp || {{ $isFinished ? 'true' : 'false' }}" @click="
+            Swal.fire({
+                title: 'Confirm your ticket',
+                text: 'You are about to continue with the selected ticket category.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, continue',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#000000'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '{{ route('payment.form', $concerts->id_concert) }}?cp=' + selectedCp;
+                }
+            })
+        " class="rounded-[36.55px] text-white py-3 w-full max-w-5xl transition" :class="selectedCp 
+            ? 'bg-blacktext hover:bg-gray-700' 
+            : '{{ $isFinished ? 'bg-red-400 cursor-not-allowed' : 'bg-gray-300 cursor-not-allowed' }}'">
+                    {{ $isFinished ? 'Concert Ended' : 'Select Ticket' }}
                 </button>
             </div>
+
 
         </div>
 
@@ -226,180 +259,4 @@
         </script>
 
     </div>
-=======
-<x-guest-layout>
-    <x-guest-layout>
-    <div x-data="{ notifOpen: false }">
-    <div class="w-full flex justify-center">
-        <div class="max-w-[1900px] w-full h-[650px] p-10 rounded-[70px] bg-secondary shadow-lg relative">
-            <x-navbar>
-    <!-- LEFT MENU -->
-    <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="{{ route('home') }}">Home</a>
-    <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold" href="#">Seating</a>
-    <div x-data="{ open: false }" class="relative">
-    <button @click="open = !open" class="flex items-center gap-1">
-        Category <span><img src="{{ asset('linedown.svg') }}" alt=""></span>
-    </button>
-
-    <div
-        x-show="open"
-        x-transition
-        @click.away="open = false"
-        class="absolute bg-white shadow-lg rounded-lg mt-2 p-3 w-40 z-50 origin-top"
-    >
-        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
-        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Girlgroup</a>
-        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
-    </div>
-</div>
-
-
-<x-slot:right>
-<div class="flex justify-end gap-5 text-xl">
-    <button 
-    @click="window.dispatchEvent(new CustomEvent('notif-open'))"
-    >
-    <img class="w-8 h-8 relative" src="{{ asset('notif.svg') }}" alt="">
-</button>
-
-<!-- NOTIFICATION DROPDOWN -->
-<div 
-    x-data="{ open: false }"
-    @notif-open.window="open = true"
-    @notif-close.window="open = false"
-    x-show="open"
-    class="fixed top-20 right-10 w-80 bg-white shadow-xl rounded-2xl p-5 z-[999] border"
->
-    <h2 class="font-semibold text-lg mb-3">Notifications</h2>
-
-    <div class="space-y-3 max-h-72 overflow-auto">
-        <div class="p-3 bg-gray-100 rounded-lg">
-            <p>Your favorite group just announced a new concert!</p>
-        </div>
-
-        <div class="p-3 bg-gray-100 rounded-lg">
-            <p>Your payment is being processed…</p>
-        </div>
-
-        <div class="p-3 bg-gray-100 rounded-lg">
-            <p>Your ticket is confirmed!</p>
-        </div>
-    </div>
-
-    <button
-     
-        class="mt-4 w-full bg-secondary text-white py-2 rounded-lg"
-        @click="open = false"
-    >
-        Close
-    </button>
-</div>
-
-    <!-- PROFILE DROPDOWN -->
-<div x-data="{ openProfile: false }" class="relative ml-auto">
-    <button @click="openProfile = !openProfile" class="flex items-center gap-2">
-        <img
-            src="{{ asset('profile.svg') }}"
-            alt=""
-            class="w-9 h-9 rounded-full object-cover top-full"
-        />
-        <span>
-            @if(Auth::check())
-            {{ Auth::user()->name }}
-            @endif
-        </span>
-    </button>
-
-    <div
-        x-show="openProfile"
-        x-transition
-        @click.away="openProfile = false"
-        class="absolute right-0 bg-white shadow-lg rounded-lg mt-2 p-3 w-44 z-50 origin-top"
-    >
-        <a href="#" class=""></a>
-        <a href="{{ route('dashboard') }}" class="block px-3 py-2 hover:bg-gray-100 rounded">Dashboard</a>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded">
-                Logout
-            </button>
-        </form>
-    </div>
-</div>
-</div>
-</x-slot:right>
-
-
-    <!-- SEARCH BAR -->
-    <x-slot:search>
-    <div class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
-        <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
-        <input
-        type="text"
-        placeholder="Search"
-        class="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none font-dmsans text-blacktext"
-    />
-</div>
-</x-slot:search>
-</x-navbar>
-            <img class="absolute rounded-[29.273px] w-[592px] h-[380px] top-[120px] mt-[50px] left-10" src="{{ asset('h2h.jpeg') }}" alt="">
-            <div class="absolute right-10 top-[180px] mt-[60px] text-basetext font-bold text-[48px] leading-[56px] flex flex-col gap-6">
-                <h1>Transaksi aman,</h1>
-            <span>nonton konser nyaman</span>
-            </div>
-            <div class="absolute left-[700px] bottom-10 top-[350px] mt-[60px] w-[550px] text-basetext font-normal text-[18px] leading-[28px]">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit labore placeat minima nemo eaque animi, delectus molestias saepe in porro aliquam voluptatibus sint, alias ratione quasi pariatur? Ad, optio eum?</p>
-            </div>
-            <div class="absolute bottom-10 right-[200px] flex gap-4">
-    <!-- tombol putih -->
-     <div class="mt-16 mb-3">
-        <button class="bg-white hover:bg-customHover text-blacktext font-semibold py-3 px-6 rounded-[36.55px] shadow-md">
-        Get Started
-    </button>
-     </div>
-
-    <!-- tombol biru -->
-     <div class="mt-16 mb-3">
-         <button class="bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center gap-2 shadow-md">
-        <a href="{{ route('login') }}">Sign in Now</a>
-        <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]" alt="icon">
-    </button>
-     </div>
-</div>
-        </div>
-    </div>
-    <div class="text-center mb-8 mt-[100px] text-4xl font-bold text-blacktext">
-        <h1>Concert Name</h1>
-    <p>Location - Date</p>
-    </div>
-    <img class="h-[450px] w-[900px] relative left-[190px] rounded-[20px]" src="https://kpop-center.com/wp-content/uploads/2024/09/aespa_main-2.png" alt="">
-    <x-concertp.containseat :seats="$seats">
-    </x-concertp.containseat>
-    <div class="flex justify-center items-center mt-10 mb-20">
-        <button class="bg-blacktext rounded-[36.55px] text-white px-[320px] hover:bg-gray-700 py-3">Select Ticket</button>
-    </div>
-    <x-footer>
-        <div class="flex flex-col absolute right-[100px] md:flex-row items-center justify-center gap-12 p-12">
-            <a href="{{ route('home') }}">Home</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('fb.svg') }}" alt=""></a>
-            <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('insta.svg') }}" alt=""></a>
-            <a href="#" target="_blank"><img class="w-8 h-8" src="{{ asset('twit.svg') }}" alt=""></a>
-        </div>
-    </x-footer>
-
-    <script>
-    document.addEventListener('alpine:init', () => {
-        @if(session('notif') === 'open')
-            setTimeout(() => {
-                window.dispatchEvent(new CustomEvent('notif-open'));
-            }, 10); // beri waktu alpine hidup
-        @endif
-    });
-</script>
-</div>
-</x-guest-layout>
-
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 </x-guest-layout>
