@@ -1,6 +1,6 @@
 @props(['purchaseHistory' => []])
 
-<div class="mt-10 max-w-6xl mb-10 mx-auto px-4 md:px-6 w-full">
+<div class="mt-6 mb-10 px-4 md:px-20 w-full">
   <div class="overflow-x-auto rounded-[24px] shadow-lg">
     <table class="w-full border-collapse bg-white min-w-[800px]">
       <thead>

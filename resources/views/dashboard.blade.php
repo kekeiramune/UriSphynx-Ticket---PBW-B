@@ -90,8 +90,9 @@
 
 
         </x-navbar>
-        <div class="relative gap-4 px-4 md:px-20 mt-10 text-center md:text-left">
-            <h1 class="font-semibold text-2xl md:text-3xl text-gray-800">Welcome back, </h1>
+
+        <div class="px-4 md:px-20 mt-10">
+            <h1 class="font-semibold text-2xl md:text-3xl text-gray-800">Welcome back,</h1>
             <h1 class="font-semibold text-2xl md:text-3xl text-gray-800 mt-2">
                 @if(Auth::check())
                     {{ Auth::user()->name }}!
@@ -99,13 +100,10 @@
             </h1>
         </div>
 
-        <x-dashboard.container1d>
-        </x-dashboard.container1d>
-
-        <h1 class="relative left-[80px] mt-10 font-bold text-3xl text-start">Active Tickets Available</h1>
+        <h1 class="px-4 md:px-20 mt-10 font-bold text-3xl">Active Tickets Available</h1>
         <x-dashboard.container2d :activeTickets="$activeTickets"></x-dashboard.container2d>
 
-        <h1 class="relative mt-10 left-[80px] font-bold text-3xl text-start">Purchase History</h1>
+        <h1 class="px-4 md:px-20 mt-10 font-bold text-3xl">Purchase History</h1>
         <x-dashboard.purtable :purchaseHistory="$purchaseHistory"></x-dashboard.purtable>
     </div>
 

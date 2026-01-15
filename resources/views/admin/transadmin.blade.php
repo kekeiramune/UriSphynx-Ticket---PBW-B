@@ -50,20 +50,7 @@
             </nav>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="flex-1 p-8">
-            <!-- Success/Error Messages -->
-            @if(session('success'))
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded">
-                    {{ session('error') }}
-                </div>
-            @endif
 
             <div class="bg-white shadow rounded-lg p-6">
                 <h1 class="text-xl font-semibold text-[#1F384C] mb-4">
@@ -133,13 +120,13 @@
 
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit"
-                                                        onclick="return confirm('Approve transaksi ini dan generate tiket?')"
+                                                    <button type="button"
+                                                        onclick="confirmApprove({{ $transaction->id_transaction }})"
                                                         class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs transition">
                                                         Approve
                                                     </button>
                                                 </form>
-                                                <button onclick="showRejectModal({{ $transaction->id_transaction }})"
+                                                <button onclick="confirmReject({{ $transaction->id_transaction }})"
                                                     class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition">
                                                     Reject
                                                 </button>
@@ -180,34 +167,38 @@
         </div>
     </div>
 
-    <!-- Reject Modal -->
-    <div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 class="text-xl font-semibold mb-4">Reject Transaction</h3>
-            <form id="rejectForm" method="POST" action="">
-                @csrf
-                @method('PUT')
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Reason for rejection (optional)</label>
-                    <textarea name="admin_notes" rows="4"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
-                        placeholder="Enter reason for rejection..."></textarea>
-                </div>
-                <div class="flex gap-3">
-                    <button type="submit"
-                        class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition">
-                        Confirm Reject
-                    </button>
-                    <button type="button" onclick="closeRejectModal()"
-                        class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 rounded-lg transition">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <script>
+        // Show SweetAlert for session messages
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#22c55e',
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session('error') }}',
+                confirmButtonColor: '#ef4444',
+            });
+        @endif
+
+        @if(session('info'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Information',
+                text: '{{ session('info') }}',
+                confirmButtonColor: '#3b82f6',
+            });
+        @endif
+
         function showPaymentProof(imageUrl) {
             document.getElementById('paymentProofImage').src = imageUrl;
             document.getElementById('paymentProofModal').classList.remove('hidden');
@@ -217,14 +208,92 @@
             document.getElementById('paymentProofModal').classList.add('hidden');
         }
 
-        function showRejectModal(transactionId) {
-            const form = document.getElementById('rejectForm');
-            form.action = `/admin/transaction/${transactionId}/reject`;
-            document.getElementById('rejectModal').classList.remove('hidden');
+        function confirmReject(transactionId) {
+            Swal.fire({
+                title: 'Reject Transaction?',
+                html: `
+                    <div class="text-left">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Reason for rejection (optional)</label>
+                        <textarea id="rejectReason" class="swal2-input w-full" rows="4" 
+                            placeholder="Enter reason for rejection..." 
+                            style="height: auto; padding: 10px;"></textarea>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Reject',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#9ca3af',
+                preConfirm: () => {
+                    return document.getElementById('rejectReason').value;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form with rejection reason
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/admin/transaction/${transactionId}/reject`;
+                    
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_token';
+                    csrfInput.value = csrfToken;
+                    
+                    const methodInput = document.createElement('input');
+                    methodInput.type = 'hidden';
+                    methodInput.name = '_method';
+                    methodInput.value = 'PUT';
+                    
+                    const reasonInput = document.createElement('input');
+                    reasonInput.type = 'hidden';
+                    reasonInput.name = 'admin_notes';
+                    reasonInput.value = result.value || '';
+                    
+                    form.appendChild(csrfInput);
+                    form.appendChild(methodInput);
+                    form.appendChild(reasonInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
         }
 
-        function closeRejectModal() {
-            document.getElementById('rejectModal').classList.add('hidden');
+        function confirmApprove(transactionId) {
+            Swal.fire({
+                title: 'Approve Transaction?',
+                text: 'This will approve the transaction and generate tickets for the customer',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Approve',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#22c55e',
+                cancelButtonColor: '#9ca3af',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/admin/transaction/${transactionId}/approve`;
+
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_token';
+                    csrfInput.value = csrfToken;
+
+                    const methodInput = document.createElement('input');
+                    methodInput.type = 'hidden';
+                    methodInput.name = '_method';
+                    methodInput.value = 'PUT';
+
+                    form.appendChild(csrfInput);
+                    form.appendChild(methodInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
         }
 
         function confirmLogout() {
@@ -248,7 +317,6 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePaymentProof();
-                closeRejectModal();
             }
         });
     </script>
