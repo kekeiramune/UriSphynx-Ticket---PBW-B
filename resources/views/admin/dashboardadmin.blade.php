@@ -1,12 +1,8 @@
 <x-app-layout>
-<<<<<<< HEAD
     <div x-data="{ sidebarOpen: false }" class="min-h-screen flex bg-secondary relative">
         <!-- Mobile Sidebar Overlay -->
         <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity
             class="fixed inset-0 bg-black/50 z-20 md:hidden"></div>
-=======
-    <div class="min-h-screen flex bg-secondary">
->>>>>>> main
 
         <!-- Sidebar -->
         <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
@@ -65,7 +61,6 @@
         </aside>
 
         <!-- MAIN CONTENT -->
-<<<<<<< HEAD
         <main class="flex-1 overflow-y-auto w-full">
             <div class="p-4 md:p-8">
                 <div class="flex items-center gap-4 mb-6 md:mb-8">
@@ -78,11 +73,6 @@
                     </button>
                     <h1 class="text-2xl md:text-3xl font-bold text-[#273240]">Dashboard</h1>
                 </div>
-=======
-        <main class="flex-1 overflow-y-auto">
-            <div class="p-8">
-                <h1 class="text-3xl font-bold text-[#273240] mb-8">Dashboard</h1>
->>>>>>> main
 
                 <!-- Revenue and Order Time Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -91,7 +81,6 @@
                         <div class="flex justify-between items-start mb-6">
                             <div>
                                 <h2 class="text-gray-600 text-sm mb-2">Revenue</h2>
-<<<<<<< HEAD
                                 <p class="text-3xl font-bold text-[#273240]">IDR
                                     {{ number_format($totalRevenue, 0, ',', '.') }}
                                 </p>
@@ -109,35 +98,16 @@
                                                     d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
                                                     clip-rule="evenodd" />
                                             </svg>
-=======
-                                <p class="text-3xl font-bold text-[#273240]">IDR {{ number_format($totalRevenue, 0, ',', '.') }}</p>
-                                <p class="{{ $revenueGrowth >= 0 ? 'text-green-500' : 'text-red-500' }} text-sm mt-1">
-                                    <span class="inline-flex items-center">
-                                        @if($revenueGrowth >= 0)
-                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                        </svg>
->>>>>>> main
                                         @endif
                                         {{ abs($revenueGrowth) }}% vs last 12 days
                                     </span>
                                 </p>
-<<<<<<< HEAD
                                 <p class="text-gray-400 text-xs mt-2">Sales from
                                     {{ now()->subDays(11)->format('d M, Y') }} - {{ now()->format('d M, Y') }}
                                 </p>
                             </div>
                             <button
                                 class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
-=======
-                                <p class="text-gray-400 text-xs mt-2">Sales from {{ now()->subDays(11)->format('d M, Y') }} - {{ now()->format('d M, Y') }}</p>
-                            </div>
-                            <button class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
->>>>>>> main
                                 View Report
                             </button>
                         </div>
@@ -163,12 +133,8 @@
                                 <h2 class="text-gray-600 text-sm mb-2">Order Time</h2>
                                 <p class="text-gray-400 text-xs mt-1">From 1-20 Jan, 2026</p>
                             </div>
-<<<<<<< HEAD
                             <button
                                 class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
-=======
-                            <button class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
->>>>>>> main
                                 View Report
                             </button>
                         </div>
@@ -205,11 +171,7 @@
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <h2 class="text-xl font-bold text-[#273240] mb-2">Most Ticket Sales</h2>
                     <p class="text-gray-400 text-sm mb-6">Adipiscing elit, sed do eiusmod tempor</p>
-<<<<<<< HEAD
 
-=======
-                    
->>>>>>> main
                     <div class="space-y-4">
                         @php
                             $gradients = [
@@ -219,7 +181,6 @@
                                 'from-orange-400 to-red-500',
                             ];
                         @endphp
-<<<<<<< HEAD
 
                         @forelse($topConcerts as $index => $concert)
                             <!-- Ticket Item {{ $index + 1 }} -->
@@ -238,24 +199,6 @@
                             <div class="text-center py-8 text-gray-400">
                                 <p>No ticket sales data available</p>
                             </div>
-=======
-                        
-                        @forelse($topConcerts as $index => $concert)
-                        <!-- Ticket Item {{ $index + 1 }} -->
-                        <div class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br {{ $gradients[$index % 4] }} flex items-center justify-center text-white font-bold">
-                                    {{ strtoupper(substr($concert->concert_name, 0, 1)) }}
-                                </div>
-                                <span class="text-[#273240] font-medium">{{ $concert->concert_name }}</span>
-                            </div>
-                            <span class="text-gray-600 font-semibold">IDR {{ number_format($concert->ticket_price, 0, ',', '.') }}</span>
-                        </div>
-                        @empty
-                        <div class="text-center py-8 text-gray-400">
-                            <p>No ticket sales data available</p>
-                        </div>
->>>>>>> main
                         @endforelse
                     </div>
                 </div>
@@ -265,11 +208,7 @@
     </div>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> main
     <script>
         // Revenue Bar Chart
         const revenueCtx = document.getElementById('revenueChart').getContext('2d');
@@ -308,11 +247,7 @@
                         titleColor: '#fff',
                         bodyColor: '#fff',
                         callbacks: {
-<<<<<<< HEAD
                             label: function (context) {
-=======
-                            label: function(context) {
->>>>>>> main
                                 return context.dataset.label + ': IDR ' + context.parsed.y.toLocaleString();
                             }
                         }
@@ -335,11 +270,7 @@
                         },
                         ticks: {
                             color: '#9CA3AF',
-<<<<<<< HEAD
                             callback: function (value) {
-=======
-                            callback: function(value) {
->>>>>>> main
                                 return value;
                             }
                         }
@@ -379,11 +310,7 @@
                         titleColor: '#fff',
                         bodyColor: '#fff',
                         callbacks: {
-<<<<<<< HEAD
                             label: function (context) {
-=======
-                            label: function(context) {
->>>>>>> main
                                 return context.label + ': ' + context.parsed + '%';
                             }
                         }
