@@ -88,6 +88,7 @@
                     </x-slot:right>
 
                     <x-slot:search>
+<<<<<<< HEAD
                         <form action="{{ route('category.index') }}" method="GET"
                             class="w-full bg-white rounded-full px-4 md:px-8 py-2 flex items-center gap-3 shadow transition-all">
                             <button type="submit">
@@ -95,6 +96,14 @@
                             </button>
                             <input type="text" name="search" placeholder="Search"
                                 class="w-full bg-transparent border-none outline-none focus:ring-0 font-dmsans text-blacktext text-sm md:text-base" />
+=======
+                        <form action="{{ route('category.index') }}" method="GET" class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
+                            <button type="submit">
+                                <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
+                            </button>
+                            <input type="text" name="search" placeholder="Search"
+                                class="w-full bg-transparent border-none outline-none focus:ring-0 font-dmsans text-blacktext" />
+>>>>>>> main
                         </form>
                     </x-slot:search>
                 </x-navbar>
@@ -148,8 +157,13 @@
             <p class="text-base md:text-lg">{{ $concerts->venue }} - {{ $concerts->concert_date }}</p>
         </div>
 
+<<<<<<< HEAD
         <div class="w-full flex justify-center px-4">
             <img class="w-full max-w-5xl h-64 md:h-[450px] rounded-[20px] object-cover shadow-lg"
+=======
+        <div class="w-full flex justify-center">
+            <img class="h-[450px] w-[900px] rounded-[20px] object-cover"
+>>>>>>> main
                 src="{{ asset('storage/' . $concerts->image) }}" alt="{{ $concerts->concert_name }}">
         </div>
 
@@ -172,8 +186,13 @@
                     <div @click="if(!{{ $soldOut || $isFinished ? 'true' : 'false' }}) selectedCp = {{ $cpId }}"
                         class="relative rounded-3xl border p-14 bg-white text-center cursor-pointer transition select-none"
                         :class="selectedCp === {{ $cpId }}
+<<<<<<< HEAD
                                                 ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
                                                 : 'border-gray-200 {{ $isFinished ? 'opacity-60 cursor-not-allowed' : 'hover:border-gray-400 hover:shadow' }}'">
+=======
+                                ? 'border-black ring-2 ring-black shadow-lg scale-[1.01]'
+                                : 'border-gray-200 {{ $isFinished ? 'opacity-60 cursor-not-allowed' : 'hover:border-gray-400 hover:shadow' }}'">
+>>>>>>> main
                         @if($soldOut)
                             <span class="absolute top-4 right-4 text-xs px-3 py-1 rounded-full bg-red-100 text-red-600">
                                 SOLD OUT

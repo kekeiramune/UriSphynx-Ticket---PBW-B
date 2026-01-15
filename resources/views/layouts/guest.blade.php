@@ -20,6 +20,10 @@
     <div class="min-h-screen mx-auto max-w-full pb-10 bg-primary">
         {{ $slot }}
     </div>
+<<<<<<< HEAD
+=======
+    <script src="//unpkg.com/alpinejs" defer></script>
+>>>>>>> main
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 

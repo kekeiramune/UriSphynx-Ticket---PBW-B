@@ -15,6 +15,7 @@
                     Category <span><img src="{{ asset('linedown.svg') }}" alt=""></span>
                 </button>
 
+<<<<<<< HEAD
                 <div x-show="open" x-transition @click.away="open = false"
                     class="absolute bg-white shadow-lg rounded-lg mt-2 p-3 w-40 z-50 origin-top">
                     <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
@@ -30,6 +31,33 @@
                         class="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none font-dmsans text-blacktext" />
                 </div>
             </x-slot:search>
+=======
+    <div
+        x-show="open"
+        x-transition
+        @click.away="open = false"
+        class="absolute bg-white shadow-lg rounded-lg mt-2 p-3 w-40 z-50 origin-top"
+    >
+        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
+        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Girlgroup</a>
+        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
+    </div>
+</div>
+    <!-- SEARCH BAR -->
+    <x-slot:search>
+    <form action="{{ route('category.index') }}" method="GET" class="w-1/2 bg-white rounded-full px-8 py-1 flex items-center gap-3 shadow">
+        <button type="submit">
+            <img src="{{ asset('search.svg') }}" class="w-5 h-5 opacity-70" alt="">
+        </button>
+        <input
+        type="text"
+        name="search"
+        placeholder="Search"
+        class="w-full bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none font-dmsans text-blacktext"
+    />
+    </form>
+</x-slot:search>
+>>>>>>> main
 
             <x-slot:right>
 

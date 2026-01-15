@@ -52,73 +52,116 @@
         <!-- MAIN CONTENT -->
         <main class="flex-1 p-8">
             <div class="bg-white shadow rounded-lg p-6">
-                <h1 class="text-xl font-semibold text-[#1F384C] mb-4">
-                    Ticket Management
-                </h1>
+                <!-- Header with Add Button -->
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-bold text-[#273240]">
+                        Ticket Management
+                    </h1>
+                    <a href="{{ route('admin.ticketprice.create') }}"
+                        class="px-6 py-3 bg-[#707FDD] text-white rounded-lg hover:bg-[#5f6bc9] transition flex items-center gap-2 font-semibold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Add Ticket
+                    </a>
+                </div>
+
+                <!-- Success/Error Messages -->
+                @if(session('success'))
+                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
-                        <thead class="bg-[#5A6ACF]">
+                        <thead class="bg-[#707FDD]">
                             <tr>
-                                <thead class="bg-[#5A6ACF]">
-                                    <tr>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Concert</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Date</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Venue</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Category</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Quota</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Price</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-white">Action</th>
-                                    </tr>
-                                </thead>
-
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Concert</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Date</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Venue</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Category</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Sold/Quota</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Price</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-white">Status</th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-white">Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @forelse ($concerts as $concert)
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-4 py-2">
+                                <tr class="hover:bg-gray-50 transition border-b border-gray-200">
+                                    <td class="px-4 py-3 font-medium text-[#273240]">
                                         {{ $concert->concert_name }}
                                     </td>
 
-                                    <td class="px-4 py-2">
-                                        {{ $concert->concert_date }}
+                                    <td class="px-4 py-3 text-gray-600">
+                                        {{ \Carbon\Carbon::parse($concert->concert_date)->format('d M Y') }}
                                     </td>
 
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-3 text-gray-600">
                                         {{ $concert->venue }}
                                     </td>
 
-                                    <td class="px-4 py-2">
-                                        {{ $concert->name_seating }}
+                                    <td class="px-4 py-3">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                                            {{ $concert->name_seating }}
+                                        </span>
                                     </td>
 
-                                    <td class="px-4 py-2 text-center font-semibold">
-                                        {{ $concert->quota }}
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="font-semibold {{ $concert->sold >= $concert->quota ? 'text-red-600' : 'text-gray-700' }}">
+                                            {{ $concert->sold }}/{{ $concert->quota }}
+                                        </span>
                                     </td>
 
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-3 font-semibold text-[#707FDD]">
                                         Rp {{ number_format($concert->ticket_price, 0, ',', '.') }}
                                     </td>
 
-                                    <td class="px-4 py-2 flex justify-center mt-3">
-                                        <a href="{{ route('admin.ticket.edit', $concert->id_price) }}"
-                                        >
-                                            <img src="{{ asset('pencilwrite.svg') }}" alt="">
-                                        </a>
+                                    <td class="px-4 py-3">
+                                        @if($concert->status_seating == 'available')
+                                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Available</span>
+                                        @elseif($concert->status_seating == 'sold_out')
+                                            <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">Sold Out</span>
+                                        @else
+                                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">Hidden</span>
+                                        @endif
                                     </td>
 
+                                    <td class="px-4 py-3">
+                                        <div class="flex justify-center gap-3">
+                                            <a href="{{ route('admin.ticket.edit', $concert->id_price) }}"
+                                                class="text-blue-600 hover:text-blue-800 transition"
+                                                title="Edit">
+                                                <img src="{{ asset('pencilwrite.svg') }}" alt="Edit" class="w-5 h-5">
+                                            </a>
+
+                                            <form action="{{ route('admin.ticket.delete', $concert->id_price) }}" method="POST" class="inline">
+                                                @csrf
+                                                <button type="button" onclick="confirmDelete(event, this.closest('form'))"
+                                                    class="text-red-600 hover:text-red-800 transition"
+                                                    title="Delete">
+                                                    <img src="{{ asset('binred.svg') }}" alt="Delete" class="w-5 h-5">
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-6 text-gray-500">
+                                    <td colspan="8" class="text-center py-8 text-gray-500">
                                         No ticket data available
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
-
                     </table>
                 </div>
             </div>
@@ -141,6 +184,24 @@
                     document.getElementById('logout-form').submit();
                 }
             })
+        }
+
+        function confirmDelete(event, form) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Delete Ticket?',
+                text: 'This action cannot be undone. Tickets with sales cannot be deleted.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#9ca3af',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         }
     </script>
 </x-app-layout>

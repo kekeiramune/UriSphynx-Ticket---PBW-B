@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\Concert_Price;
+<<<<<<< HEAD
 use App\Models\Ticket;
+=======
+>>>>>>> main
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
@@ -35,13 +38,22 @@ class AdminController extends Controller
         abort_unless(Gate::allows('admin'), 403);
 
         // Calculate total revenue from paid transactions
+<<<<<<< HEAD
         $totalRevenue = Transaction::where('status', 'Paid')->sum('total_price');
+=======
+        $totalRevenue = Transaction::where('status', 'paid')->sum('total_price');
+>>>>>>> main
 
         // Get daily sales for last 12 days (current period)
         $currentPeriodStart = now()->subDays(11)->startOfDay();
         $currentPeriodEnd = now()->endOfDay();
+<<<<<<< HEAD
 
         $dailySalesLast12Days = Transaction::where('status', 'Paid')
+=======
+        
+        $dailySalesLast12Days = Transaction::where('status', 'paid')
+>>>>>>> main
             ->whereBetween('created_at', [$currentPeriodStart, $currentPeriodEnd])
             ->selectRaw('DATE(created_at) as date, SUM(total_price) as total')
             ->groupBy('date')
@@ -52,8 +64,13 @@ class AdminController extends Controller
         // Get daily sales for previous 12 days (comparison period)
         $previousPeriodStart = now()->subDays(23)->startOfDay();
         $previousPeriodEnd = now()->subDays(12)->endOfDay();
+<<<<<<< HEAD
 
         $dailySalesPrevious12Days = Transaction::where('status', 'Paid')
+=======
+        
+        $dailySalesPrevious12Days = Transaction::where('status', 'paid')
+>>>>>>> main
             ->whereBetween('created_at', [$previousPeriodStart, $previousPeriodEnd])
             ->selectRaw('DATE(created_at) as date, SUM(total_price) as total')
             ->groupBy('date')
@@ -78,6 +95,7 @@ class AdminController extends Controller
         // Calculate revenue growth percentage
         $currentTotal = array_sum($currentPeriodData);
         $previousTotal = array_sum($previousPeriodData);
+<<<<<<< HEAD
         $revenueGrowth = $previousTotal > 0
             ? round((($currentTotal - $previousTotal) / $previousTotal) * 100, 1)
             : 0;
@@ -92,6 +110,22 @@ class AdminController extends Controller
         foreach ($transactions as $transaction) {
             $hour = (int) $transaction->created_at->format('H');
 
+=======
+        $revenueGrowth = $previousTotal > 0 
+            ? round((($currentTotal - $previousTotal) / $previousTotal) * 100, 1) 
+            : 0;
+
+        // Analyze order time distribution
+        $transactions = Transaction::where('status', 'paid')->get();
+        
+        $morningCount = 0;
+        $afternoonCount = 0;
+        $eveningCount = 0;
+        
+        foreach ($transactions as $transaction) {
+            $hour = (int) $transaction->created_at->format('H');
+            
+>>>>>>> main
             if ($hour >= 0 && $hour < 12) {
                 $morningCount++;
             } elseif ($hour >= 12 && $hour < 18) {
@@ -100,7 +134,11 @@ class AdminController extends Controller
                 $eveningCount++;
             }
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> main
         $totalTransactions = $transactions->count();
         $orderTimeData = [
             'afternoon' => $totalTransactions > 0 ? round(($afternoonCount / $totalTransactions) * 100) : 0,
@@ -414,7 +452,11 @@ class AdminController extends Controller
 
         // Check if any tickets have been sold
         $ticket = DB::table('concert_price')->where('id_price', $id)->first();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> main
         if ($ticket && $ticket->sold > 0) {
             return redirect()
                 ->route('admin.ticketmanage')
@@ -564,6 +606,7 @@ class AdminController extends Controller
     public function transactions()
     {
         abort_unless(Gate::allows('admin'), 403);
+<<<<<<< HEAD
 
         $transactions = Transaction::with(['user', 'concert', 'concertPrice'])
             ->latest()
@@ -685,3 +728,78 @@ class AdminController extends Controller
 
 
 }
+=======
+
+        $transactions = Transaction::with(['user', 'concert', 'price'])
+            ->latest()
+            ->get();
+
+        return view('admin.transadmin', compact('transactions'));
+    }
+
+    public function approveTransaction($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+
+        if ($transaction->status === 'paid') {
+            return back();
+        }
+
+        // update status
+        $transaction->update([
+            'status' => 'paid'
+        ]);
+
+        // update sold ticket
+        $price = Concert_Price::find($transaction->id_price);
+        if ($price) {
+            $price->increment('sold');
+        }
+
+        return back()->with('success', 'Transaction approved');
+    }
+
+    public function profile()
+    {
+        return view('admin.accountmanage', [
+            'user' => auth()->user()
+        ]);
+    }
+
+
+    public function edit()
+    {
+        return view('admin.editprofadmin', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($request->hasFile('accimage')) {
+            $file = $request->file('accimage');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            $file->storeAs('public/photo_profile', $filename);
+
+            // simpan ke kolom accimage
+            $user->accimage = $filename;
+        }
+
+        $user->name = $request->adminname;
+        $user->email = $request->adminemail;
+        $user->no_hp = $request->adminumber;
+        $user->save();
+
+        return redirect()
+            ->route('admin.accountmanage')
+            ->with('success', 'Profile updated successfully');
+    }
+
+
+
+
+}
+>>>>>>> main

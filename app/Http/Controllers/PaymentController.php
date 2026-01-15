@@ -46,6 +46,7 @@ class PaymentController extends Controller
             'name' => $request->name,
             'payment_method' => $request->payment_method,
             'total_price' => $price->ticket_price,
+<<<<<<< HEAD
             'status' => 'pending',
             'payment_proof' => $proofName,
         ]);
@@ -55,3 +56,19 @@ class PaymentController extends Controller
             ->with('success', 'Payment submitted! Please wait for admin approval.');
     }
 }
+=======
+            'status' => 'pending', // sementara langsung paid
+            'payment_proof' => $proofName,
+        ]);
+
+
+
+        // update jumlah sold
+        $price->increment('sold');
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Payment successful!');
+    }
+}
+>>>>>>> main
