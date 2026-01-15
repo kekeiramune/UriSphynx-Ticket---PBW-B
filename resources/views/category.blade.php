@@ -247,12 +247,7 @@
     </div>
 
     <!-- CATEGORY CARDS -->
-<<<<<<< HEAD
     <x-category.container1c :category="$category"/>
-=======
-    <x-category.container1c />
-    <x-category.container1c />
->>>>>>> be5e30b4674e3d786da31ab2198c4a1d96e2effa
 
     <!-- FOOTER -->
     <x-footer>

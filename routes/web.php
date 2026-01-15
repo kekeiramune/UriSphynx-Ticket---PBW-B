@@ -35,14 +35,22 @@ Route::get('/category', [CategoryController::class, 'index'])
 
 Route::get('/', function () {
     $concerts = Concert::with('category')->get();
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     // Auto-update status for landing page
     foreach ($concerts as $concert) {
         if (\Carbon\Carbon::parse($concert->concert_time)->isPast() && $concert->status_concert !== 'Finished') {
             $concert->update(['status_concert' => 'Finished']);
         }
     }
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     // Re-fetch or refresh fetching isn't strictly necessary since update() doesn't mutate the instance in-place fully for all fields in all versions, 
     // but the status_concert attribute on $concert should be updated by the update() call in standard Eloquent.
     // However, to be extra safe and ensure view gets clean data:
@@ -55,7 +63,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboardadmin'])->name('admin.dashboardadmin');
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     // Concert Management Routes
     Route::get('/concertmanage', [AdminController::class, 'concertmanage'])->name('admin.concertmanage');
     Route::get('/concert/create', [AdminController::class, 'createConcert'])->name('admin.concert.create');
@@ -63,7 +75,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/concert/{id}/edit', [AdminController::class, 'editConcert'])->name('admin.concert.edit');
     Route::put('/concert/{id}/update', [AdminController::class, 'updateConcert'])->name('admin.concert.update');
     Route::post('/concert/{id}/delete', [AdminController::class, 'deleteConcert'])->name('admin.concert.delete');
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     Route::get('/transactions', [AdminController::class, 'transactions'])->name('admin.transadmin');
     Route::get('/ticketmanage', [AdminController::class, 'ticketmanage'])->name('admin.ticketmanage');
     Route::get('/accountmanage', [AdminController::class, 'accountmanage'])->name('admin.accountmanage');
@@ -76,7 +92,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         ->name('admin.ticket.create');
     Route::post('/concertmanage/store', [AdminController::class, 'storeTicket'])
         ->name('admin.ticket.store');
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     // Ticket Price Management Routes
     Route::get('/ticketprice/create', [AdminController::class, 'createTicketPrice'])
         ->name('admin.ticketprice.create');
@@ -84,7 +104,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         ->name('admin.ticketprice.store');
     Route::post('/ticket/{id}/delete', [AdminController::class, 'deleteTicket'])
         ->name('admin.ticket.delete');
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     Route::get('/categorymanage', [AdminController::class, 'showCategory'])
         ->name('admin.categorymanage');
 
@@ -106,6 +130,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::put('/transaction/{id}/approve', [AdminController::class, 'approveTransaction'])
         ->name('admin.transaction.approve');
 
+<<<<<<< HEAD
+    Route::put('/transaction/{id}/reject', [AdminController::class, 'rejectTransaction'])
+        ->name('admin.transaction.reject');
+
+=======
+>>>>>>> main
     Route::put('/profile', [AdminController::class, 'update'])
         ->name('admin.profile.update');
 
@@ -117,7 +147,7 @@ Route::get('/dashboard', function () {
         return redirect()->route('admin.dashboardadmin');
     }
 
-    return view('dashboard');
+    return app(\App\Http\Controllers\UserDashboardController::class)->index();
 })->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -126,4 +156,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+<<<<<<< HEAD
 require __DIR__ . '/auth.php';
+=======
+require __DIR__ . '/auth.php';
+>>>>>>> main
