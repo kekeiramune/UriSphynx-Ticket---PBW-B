@@ -1,8 +1,8 @@
 <x-app-layout>
-    <div class="min-h-screen flex items-center justify-center bg-black/80 py-16">
-        <div class="bg-white w-full max-w-3xl rounded-2xl p-10 shadow-xl">
+    <div class="min-h-screen flex items-center justify-center bg-black/80 py-10 px-4">
+        <div class="bg-white w-full max-w-3xl rounded-2xl p-6 md:p-10 shadow-xl">
 
-            <h1 class="text-3xl font-bold mb-8">Form Pembayaran</h1>
+            <h1 class="text-2xl md:text-3xl font-bold mb-8">Form Pembayaran</h1>
 
             <form method="POST" action="{{ route('payment.store', $concert->id_concert) }}"
                 enctype="multipart/form-data">
@@ -48,18 +48,18 @@
                 <div class="mb-8">
                     <label class="block text-sm font-semibold mb-2">PAYMENT METHOD</label>
 
-                    <div class="flex gap-6">
-                        <label class="flex items-center gap-2 cursor-pointer">
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-6">
+                        <label class="flex items-center gap-2 cursor-pointer border md:border-none p-3 md:p-0 rounded-lg md:rounded-none bg-gray-50 md:bg-transparent">
                             <input type="radio" name="payment_method" value="gopay" required>
                             <span>E-Wallet (GoPay)</span>
                         </label>
 
-                        <label class="flex items-center gap-2 cursor-pointer">
+                        <label class="flex items-center gap-2 cursor-pointer border md:border-none p-3 md:p-0 rounded-lg md:rounded-none bg-gray-50 md:bg-transparent">
                             <input type="radio" name="payment_method" value="ovo">
                             <span>OVO</span>
                         </label>
 
-                        <label class="flex items-center gap-2 cursor-pointer">
+                        <label class="flex items-center gap-2 cursor-pointer border md:border-none p-3 md:p-0 rounded-lg md:rounded-none bg-gray-50 md:bg-transparent">
                             <input type="radio" name="payment_method" value="dana">
                             <span>DANA</span>
                         </label>

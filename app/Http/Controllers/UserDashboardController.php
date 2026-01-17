@@ -10,80 +10,75 @@ use Illuminate\Support\Facades\Auth;
 class UserDashboardController extends Controller
 {
     /**
-     * Display user dashboard with transaction history and active tickets
+     * Display the user dashboard with active tickets and purchase history.
      */
     public function index()
     {
         $user = Auth::user();
-        
-        // DEBUG: Log current user info
-        \Log::info('Dashboard accessed by user', [
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'user_email' => $user->email,
-            'user_role' => $user->role
-        ]);
-        
-        // Redirect admin users to admin dashboard
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboardadmin');
+
+        try {
+            // Get active tickets for the user
+            $activeTickets = Ticket::with(['concert.category', 'concertPrice.seating'])
+                ->where('user_id', $user->id)
+                ->where('status', 'active')
+                ->get();
+
+            // Get purchase history (all transactions)
+            $purchaseHistory = Transaction::with(['concert', 'concertPrice.seating'])
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } catch (\Exception $e) {
+            // If tables don't exist yet (migrations not run), return empty collections
+            $activeTickets = collect([]);
+            $purchaseHistory = collect([]);
         }
-        
-        // Get all transactions for the user with related data
-        $transactions = Transaction::with(['concert', 'price.seating'])
-            ->where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
-        
-        // DEBUG: Log transaction query results
-        \Log::info('Transactions query result', [
-            'user_id' => $user->id,
-            'transaction_count' => $transactions->count(),
-            'all_transactions_count' => Transaction::count()
-        ]);
-        
-        // Get active tickets (paid transactions for upcoming/ongoing concerts)
-        $activeTickets = Transaction::with(['concert.category', 'price.seating'])
-            ->where('user_id', $user->id)
-            ->where('status', 'paid')
-            ->whereHas('concert', function($query) {
-                $query->whereIn('status_concert', ['Upcoming', 'Ongoing']);
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
-        
-        // DEBUG: Log active tickets
-        \Log::info('Active tickets result', [
-            'active_tickets_count' => $activeTickets->count()
-        ]);
-        
-        return view('dashboard', compact('transactions', 'activeTickets'));
+
+        return view('dashboard', compact('activeTickets', 'purchaseHistory'));
     }
-    
+
     /**
-     * Show transaction detail
+     * Get active tickets for the authenticated user.
      */
-    public function showTransaction($id)
+    public function getActiveTickets()
     {
-        $transaction = Transaction::with(['concert', 'price.seating'])
-            ->where('user_id', Auth::id())
-            ->where('id_transaction', $id)
-            ->firstOrFail();
-        
-        return view('user.transaction-detail', compact('transaction'));
+        $user = Auth::user();
+
+        $tickets = Ticket::with(['concert', 'seating'])
+            ->where('user_id', $user->id)
+            ->where('status', 'active')
+            ->get();
+
+        return response()->json($tickets);
     }
-    
+
     /**
-     * Show ticket detail (e-ticket view)
+     * Get purchase history for the authenticated user.
+     */
+    public function getPurchaseHistory()
+    {
+        $user = Auth::user();
+
+        $transactions = Transaction::with(['concert', 'seating'])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($transactions);
+    }
+
+    /**
+     * Show detailed e-ticket information.
      */
     public function showTicket($id)
     {
-        $transaction = Transaction::with(['concert.category', 'price.seating', 'user'])
-            ->where('user_id', Auth::id())
-            ->where('id_transaction', $id)
-            ->where('status', 'paid')
+        $user = Auth::user();
+
+        $ticket = Ticket::with(['concert', 'seating', 'transaction'])
+            ->where('id_ticket', $id)
+            ->where('user_id', $user->id)
             ->firstOrFail();
-        
-        return view('user.ticket-detail', compact('transaction'));
+
+        return view('ticket-detail', compact('ticket'));
     }
 }

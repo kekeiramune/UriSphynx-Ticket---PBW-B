@@ -266,4 +266,8 @@
             })
         }
     </script>
+<<<<<<< HEAD
 </x-app-layout>
+=======
+</x-app-layout>
+>>>>>>> main

@@ -1,45 +1,47 @@
 @props(['activeTickets' => []])
 
-<div class="relative mt-10 flex gap-[100px] mt-10 justify-center flex-wrap">
-    @forelse($activeTickets ?? [] as $ticket)
-    <div class="shadow-xl shadow-black/20 w-[300px] h-[450px] bg-white rounded-[24px] flex flex-col items-center justify-center p-4">
-        @if($ticket->concert->image)
-            <img src="{{ asset('storage/' . $ticket->concert->image) }}" 
-                 alt="{{ $ticket->concert->concert_name }}"
-                 class="w-32 h-32 object-cover rounded-lg mb-3">
-        @else
-            <div class="w-32 h-32 bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
-                <span class="text-gray-400 text-sm">No Image</span>
-            </div>
-        @endif
-        
-        <h1 class="font-bold text-[#2C2C2C] text-xl mt-2 text-center">{{ $ticket->concert->concert_name }}</h1>
-        <p class="text-[#757575] text-sm">{{ \Carbon\Carbon::parse($ticket->concert->concert_date)->format('d M Y') }}</p>
-        <p class="text-[#757575] text-sm">{{ $ticket->concert->city }}</p>
-        <p class="text-[#444444] font-semibold mt-2">{{ $ticket->price->seating->name_seating ?? 'N/A' }}</p>
-        <p class="text-[#757575] text-xs mb-3">Rp {{ number_format($ticket->total_price, 0, ',', '.') }}</p>
-        
-        <a href="{{ route('ticket.show', $ticket->id_transaction) }}" 
-           class="bg-white text-[#444444] hover:bg-gray-200 border px-12 py-3 rounded-[40px] border-[#444444] transition-all">
-            See E-Ticket
-        </a>
-        
-        <div class="mt-3">
-            @if($ticket->concert->status_concert === 'Upcoming')
-                <span class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-semibold">Upcoming</span>
-            @elseif($ticket->concert->status_concert === 'Ongoing')
-                <span class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-sm font-semibold">Ongoing</span>
+<div class="mt-6 flex gap-8 justify-center flex-wrap px-4 md:px-20">
+    @forelse($activeTickets as $ticket)
+        <div
+            class="shadow-xl shadow-black/20 w-full md:w-[300px] h-auto p-6 md:p-0 md:h-[400px] bg-white rounded-[24px] flex flex-col items-center justify-center mb-6">
+            @if($ticket->concert->category && $ticket->concert->category->groupimg)
+                <img src="{{ asset('storage/' . $ticket->concert->category->groupimg) }}"
+                    alt="{{ $ticket->concert->concert_name }}" class="w-24 h-24 rounded-full object-cover">
+            @else
+                <div
+                    class="w-24 h-24 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center text-white text-2xl font-bold">
+                    {{ substr($ticket->concert->concert_name, 0, 1) }}
+                </div>
             @endif
+            <h1 class="font-bold text-[#2C2C2C] text-xl mt-5">{{ $ticket->concert->concert_name }}</h1>
+            <p class="text-[#757575]">{{ \Carbon\Carbon::parse($ticket->concert->concert_date)->format('d M Y') }}</p>
+            <p class="text-[#757575] mb-3">{{ $ticket->concert->city }}</p>
+            <button @click="$dispatch('open-ticket', {
+                                    ticket_code: '{{ $ticket->ticket_code }}',
+                                    concert_name: '{{ $ticket->concert->concert_name }}',
+                                    concert_date: '{{ \Carbon\Carbon::parse($ticket->concert->concert_date)->format('d F Y') }}',
+                                    venue: '{{ $ticket->concert->venue }}',
+                                    city: '{{ $ticket->concert->city }}',
+                                    seating_name: '{{ $ticket->concertPrice->seating->name_seating ?? '-' }}',
+                                    user_name: '{{ Auth::user()->name }}',
+                                    purchase_date: '{{ $ticket->created_at->format('d F Y') }}',
+                                    qr_code_url: '{{ $ticket->qr_code_path ? asset('storage/' . $ticket->qr_code_path) : asset('placeholder-qr.png') }}',
+                                    status: '{{ $ticket->status }}'
+                                })"
+                class="bg-white text-[#444444] hover:bg-gray-200 border px-12 py-3 rounded-[40px] border-[#444444] transition">
+                See E-Ticket
+            </button>
+            <h1 class="font-semibold text-xl text-[#2C2C2C] mt-5">
+                <span
+                    class="px-3 py-1 rounded-full text-sm {{ $ticket->status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
+                    {{ ucfirst($ticket->status) }}
+                </span>
+            </h1>
         </div>
-    </div>
     @empty
-    <div class="w-full text-center py-12">
-        <p class="text-gray-500 text-lg">No active tickets yet.</p>
-        <p class="text-gray-400 text-sm mt-2">Book a concert to see your tickets here!</p>
-        <a href="{{ route('home') }}" 
-           class="inline-block mt-4 bg-[#8faeba] text-white px-6 py-3 rounded-full hover:bg-[#7a8fa0] transition-all">
-            Browse Concerts
-        </a>
-    </div>
+        <div class="text-center py-12">
+            <p class="text-gray-500 text-lg">Belum ada tiket aktif</p>
+            <p class="text-gray-400 text-sm mt-2">Tiket akan muncul setelah pembayaran diapprove oleh admin</p>
+        </div>
     @endforelse
 </div>

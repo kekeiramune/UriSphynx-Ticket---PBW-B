@@ -47,14 +47,12 @@ class PaymentController extends Controller
             'name' => $request->name,
             'payment_method' => $request->payment_method,
             'total_price' => $price->ticket_price,
-            'status' => 'pending', // pending until admin approves
+            'status' => 'pending',
             'payment_proof' => $proofName,
         ]);
 
-        // Note: sold count will be incremented when admin approves the transaction
-
         return redirect()
             ->route('dashboard')
-            ->with('success', 'Payment submitted! Please wait for admin verification.');
+            ->with('success', 'Payment submitted! Please wait for admin approval.');
     }
 }

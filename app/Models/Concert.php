@@ -9,7 +9,6 @@ use App\Models\Concert_Price;
 class Concert extends Model
 {
     protected $table = 'concerts';
-    public $timestamps = false;
     protected $primaryKey = 'id_concert';
     protected $fillable = [
         'concert_name',
@@ -33,10 +32,10 @@ class Concert extends Model
     {
         return $this->belongsToMany(
             Seating::class,
-            'concert_seating',   // pivot table
-            'concert_id',
-            'seating_id'
-        )->withPivot('price');
+            'concert_price',     // Correct table name
+            'id_concert',        // Foreign key on pivot table for parent
+            'id_seating'         // Foreign key on pivot table for related model
+        )->withPivot(['id_price', 'ticket_price', 'quota', 'sold', 'status_seating']);
     }
 
 
