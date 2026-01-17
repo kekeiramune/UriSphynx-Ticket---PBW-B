@@ -46,7 +46,6 @@
                         <span>Logout</span>
                     </a>
                 </form>
-                </a>
             </nav>
         </aside>
 
