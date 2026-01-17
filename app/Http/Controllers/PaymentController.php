@@ -38,6 +38,7 @@ class PaymentController extends Controller
         $request->file('payment_proof')->storeAs('payment_proofs', $proofName, 'public');
 
 
+
         // simpan transaksi
         $transaction = Transaction::create([
             'user_id' => auth()->id(),
@@ -46,17 +47,14 @@ class PaymentController extends Controller
             'name' => $request->name,
             'payment_method' => $request->payment_method,
             'total_price' => $price->ticket_price,
-            'status' => 'pending', // sementara langsung paid
+            'status' => 'pending', // pending until admin approves
             'payment_proof' => $proofName,
         ]);
 
-
-
-        // update jumlah sold
-        $price->increment('sold');
+        // Note: sold count will be incremented when admin approves the transaction
 
         return redirect()
             ->route('dashboard')
-            ->with('success', 'Payment successful!');
+            ->with('success', 'Payment submitted! Please wait for admin verification.');
     }
 }

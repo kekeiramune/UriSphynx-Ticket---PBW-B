@@ -127,10 +127,10 @@
 </x-dashboard.container1d>
 
 <h1 class="relative left-[80px] mt-10 font-bold text-3xl text-start">Active Tickets Available</h1>
-<x-dashboard.container2d></x-dashboard.container2d>
+<x-dashboard.container2d :activeTickets="$activeTickets ?? []" />
 
 <h1 class="relative mt-10 left-[80px] font-bold text-3xl text-start">Purchase History</h1>
-<x-dashboard.purtable></x-dashboard.purtable>
+<x-dashboard.purtable :transactions="$transactions ?? []" />
 </div>
 
 <x-footer>
