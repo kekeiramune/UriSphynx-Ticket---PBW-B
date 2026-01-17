@@ -38,6 +38,7 @@ class PaymentController extends Controller
         $request->file('payment_proof')->storeAs('payment_proofs', $proofName, 'public');
 
 
+
         // simpan transaksi
         $transaction = Transaction::create([
             'user_id' => auth()->id(),

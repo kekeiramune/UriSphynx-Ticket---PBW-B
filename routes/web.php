@@ -109,13 +109,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
 });
 
-Route::get('/dashboard', function () {
-    if (auth()->user()->role === 'admin') {
-        return redirect()->route('admin.dashboardadmin');
-    }
-
-    return app(\App\Http\Controllers\UserDashboardController::class)->index();
-})->middleware('auth')->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\UserDashboardController::class, 'index'])
+        ->name('dashboard');
+    
+    Route::get('/transaction/{id}', [App\Http\Controllers\UserDashboardController::class, 'showTransaction'])
+        ->name('transaction.show');
+    
+    Route::get('/ticket/{id}', [App\Http\Controllers\UserDashboardController::class, 'showTicket'])
+        ->name('ticket.show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

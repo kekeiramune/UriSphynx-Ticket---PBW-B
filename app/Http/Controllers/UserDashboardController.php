@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use App\Models\Ticket;
+use App\Models\Concert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

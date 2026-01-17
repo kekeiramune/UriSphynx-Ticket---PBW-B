@@ -1,8 +1,5 @@
 <x-app-layout>
-    <div x-data="{ sidebarOpen: false }" class="min-h-screen flex bg-secondary relative">
-        <!-- Mobile Sidebar Overlay -->
-        <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity
-            class="fixed inset-0 bg-black/50 z-20 md:hidden"></div>
+    <div class="min-h-screen flex bg-secondary">
 
         <!-- Sidebar -->
         <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
@@ -245,7 +242,7 @@
                         titleColor: '#fff',
                         bodyColor: '#fff',
                         callbacks: {
-                            label: function (context) {
+                            label: function(context) {
                                 return context.dataset.label + ': IDR ' + context.parsed.y.toLocaleString();
                             }
                         }
@@ -268,7 +265,7 @@
                         },
                         ticks: {
                             color: '#9CA3AF',
-                            callback: function (value) {
+                            callback: function(value) {
                                 return value;
                             }
                         }
@@ -308,7 +305,7 @@
                         titleColor: '#fff',
                         bodyColor: '#fff',
                         callbacks: {
-                            label: function (context) {
+                            label: function(context) {
                                 return context.label + ': ' + context.parsed + '%';
                             }
                         }
