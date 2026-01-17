@@ -171,7 +171,6 @@
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <h2 class="text-xl font-bold text-[#273240] mb-2">Most Ticket Sales</h2>
                     <p class="text-gray-400 text-sm mb-6">Adipiscing elit, sed do eiusmod tempor</p>
-
                     <div class="space-y-4">
                         @php
                             $gradients = [
@@ -208,7 +207,6 @@
     </div>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
     <script>
         // Revenue Bar Chart
         const revenueCtx = document.getElementById('revenueChart').getContext('2d');

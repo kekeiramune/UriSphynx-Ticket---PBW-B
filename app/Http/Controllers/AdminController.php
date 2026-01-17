@@ -589,7 +589,7 @@ class AdminController extends Controller
         $ticketCode = 'TIX-' . strtoupper(uniqid());
 
         // Generate QR Code
-        $qrCodePath = 'qrcodes/' . $ticketCode . '.png';
+        $qrCodePath = 'qrcodes/' . $ticketCode . '.svg';
         $qrCodeFullPath = storage_path('app/public/' . $qrCodePath);
 
         // Create directory if not exists
@@ -598,7 +598,7 @@ class AdminController extends Controller
         }
 
         // Generate QR Code image
-        \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')
+        \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
             ->size(300)
             ->margin(1)
             ->generate($ticketCode, $qrCodeFullPath);
