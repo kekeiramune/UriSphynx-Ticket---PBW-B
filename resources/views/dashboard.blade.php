@@ -9,7 +9,7 @@
         <x-navbar>
             <!-- LEFT MENU -->
             <a class="transition-all duration-200 hover:text-white hover:font-bold" href="{{ route('home') }}">Home</a>
-            <a class="transition-all duration-200 hover:text-white hover:font-bold" href="#">Seating</a>
+            <a class="transition-all duration-200 hover:text-white hover:font-bold" href="{{ route('home') }}#seating">Seating</a>
             <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open" class="flex items-center gap-1">
                     Category <span><img src="{{ asset('linedown.svg') }}" alt=""></span>
@@ -17,9 +17,12 @@
 
                 <div x-show="open" x-transition @click.away="open = false"
                     class="absolute bg-white shadow-lg rounded-lg mt-2 p-3 w-40 z-50 origin-top">
-                    <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
-                    <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Girlgroup</a>
-                    <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
+                    @if(isset($navbarTypes))
+                        @foreach($navbarTypes as $type)
+                            <a href="{{ route('category.index', ['type' => $type]) }}" 
+                               class="block px-3 py-2 hover:bg-gray-100 rounded">{{ $type }}</a>
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <!-- SEARCH BAR -->
@@ -91,7 +94,7 @@
 
         </x-navbar>
 
-        <div class="px-4 md:px-20 mt-10">
+        <div class="px-4 md:px-20 mt-32">
             <h1 class="font-semibold text-2xl md:text-3xl text-gray-800">Welcome back,</h1>
             <h1 class="font-semibold text-2xl md:text-3xl text-gray-800 mt-2">
                 @if(Auth::check())

@@ -10,7 +10,7 @@
                    href="{{ route('home') }}">Home</a>
 
                 <a class="transition-all duration-200 hover:text-[#FFFF] hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold"
-                   href="#">Seating</a>
+                   href="{{ route('home') }}#seating">Seating</a>
 
                 <!-- CATEGORY DROPDOWN -->
                 <div x-data="{ open: false }" class="relative">
@@ -20,9 +20,12 @@
 
                     <div x-show="open" x-transition @click.away="open = false"
                          class="absolute bg-white shadow-lg rounded-lg mt-2 p-3 w-40 z-50 origin-top">
-                        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
-                        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Girlgroup</a>
-                        <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
+                        @if(isset($navbarTypes))
+                            @foreach($navbarTypes as $type)
+                                <a href="{{ route('category.index', ['type' => $type]) }}" 
+                                   class="block px-3 py-2 hover:bg-gray-100 rounded">{{ $type }}</a>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 
@@ -102,15 +105,15 @@
             </x-navbar>
 
             <!-- HERO SECTION IMAGE + TEXT -->
-            <img class="absolute rounded-[29.273px] w-[592px] h-[380px] top-[120px] mt-[50px] left-10"
+            <img class="absolute rounded-[29.273px] w-[592px] h-[380px] top-[150px] mt-[50px] left-10"
                  src="{{ asset('h2h.jpeg') }}" alt="">
 
-            <div class="absolute right-10 top-[180px] mt-[60px] text-basetext font-bold text-[48px] leading-[56px] flex flex-col gap-6">
+            <div class="absolute right-10 top-[210px] mt-[60px] text-basetext font-bold text-[48px] leading-[56px] flex flex-col gap-6">
                 <h1>Transaksi aman,</h1>
                 <span>nonton konser nyaman</span>
             </div>
 
-            <div class="absolute left-[700px] top-[350px] mt-[60px] w-[550px] text-basetext text-[18px] leading-[28px]">
+            <div class="absolute left-[700px] top-[380px] mt-[60px] w-[550px] text-basetext text-[18px] leading-[28px]">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit…</p>
             </div>
 

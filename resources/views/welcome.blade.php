@@ -10,7 +10,7 @@
                     <a class="hidden md:block hover:text-white hover:bg-[#8faeba] px-4 py-1 rounded-full transition"
                         href="{{ route('home') }}">Home</a>
                     <a class="hidden md:block hover:text-white hover:bg-[#8faeba] px-4 py-1 rounded-full transition"
-                        href="#">Seating</a>
+                        href="{{ route('home') }}#seating">Seating</a>
 
                     <div x-data="{ open: false }" class="relative hidden md:block">
                         <button @click="open = !open" class="flex items-center gap-1">
@@ -19,9 +19,12 @@
 
                         <div x-show="open" @click.away="open=false"
                             class="absolute mt-2 bg-white shadow rounded-lg p-3 w-40 z-50">
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Girlgroup</a>
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed</a>
+                            @if(isset($navbarTypes))
+                                @foreach($navbarTypes as $type)
+                                    <a href="{{ route('category.index', ['type' => $type]) }}" 
+                                       class="block px-3 py-2 hover:bg-gray-100 rounded">{{ $type }}</a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
 
@@ -140,7 +143,7 @@
         <x-landing.concertcard :concerts="$concerts" />
 
         <!-- SEATING -->
-        <section class="mt-24 text-center">
+        <section id="seating" class="mt-24 text-center">
             <h1 class="text-4xl font-bold mb-8">Seating Plan</h1>
             <img src="{{ asset('seating.jpg') }}" class="mx-auto w-full max-w-5xl h-auto">
         </section>

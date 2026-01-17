@@ -103,10 +103,6 @@
                                     {{ now()->subDays(11)->format('d M, Y') }} - {{ now()->format('d M, Y') }}
                                 </p>
                             </div>
-                            <button
-                                class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
-                                View Report
-                            </button>
                         </div>
                         <div class="relative h-64">
                             <canvas id="revenueChart"></canvas>
@@ -130,10 +126,6 @@
                                 <h2 class="text-gray-600 text-sm mb-2">Order Time</h2>
                                 <p class="text-gray-400 text-xs mt-1">From 1-20 Jan, 2026</p>
                             </div>
-                            <button
-                                class="px-4 py-2 text-sm text-[#707FDD] border border-[#707FDD] rounded-lg hover:bg-[#707FDD] hover:text-white transition">
-                                View Report
-                            </button>
                         </div>
                         <div class="relative h-64 flex items-center justify-center">
                             <canvas id="orderTimeChart"></canvas>

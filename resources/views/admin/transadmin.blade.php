@@ -102,7 +102,7 @@
                                     <td class="px-4 py-3 text-sm">
                                         @if($transaction->payment_proof)
                                             <button
-                                                onclick="showPaymentProof('{{ asset('storage/' . $transaction->payment_proof) }}')"
+                                                onclick="showPaymentProof('{{ asset('storage/payment_proofs/' . $transaction->payment_proof) }}')"
                                                 class="text-blue-500 underline cursor-pointer hover:text-blue-700">
                                                 View
                                             </button>

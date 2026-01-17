@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Concert;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class UserDashboardController extends Controller
 {
@@ -21,6 +23,9 @@ class UserDashboardController extends Controller
             $activeTickets = Ticket::with(['concert.category', 'concertPrice.seating'])
                 ->where('user_id', $user->id)
                 ->where('status', 'active')
+                ->whereHas('concert', function($query) {
+                    $query->where('concert_time', '>', now());
+                })
                 ->get();
 
             // Get purchase history (all transactions)

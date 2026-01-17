@@ -13,7 +13,7 @@
                             href="{{ route('home') }}">Home</a>
 
                         <a class="transition-all duration-200 hover:text-white hover:px-4 hover:rounded-[30px] hover:py-1 hover:bg-[#8faeba] hover:font-bold"
-                            href="#">Seating</a>
+                            href="{{ route('home') }}#seating">Seating</a>
                     </div>
 
                     <div x-data="{ open: false }" class="relative">
@@ -23,9 +23,12 @@
 
                         <div x-show="open" x-transition @click.away="open = false"
                             class="absolute bg-white shadow-lg rounded-lg mt-2 p-3 w-40 z-50 origin-top">
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Boygroup</a>
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Girlgroup</a>
-                            <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Co-ed group</a>
+                            @if(isset($navbarTypes))
+                                @foreach($navbarTypes as $type)
+                                    <a href="{{ route('category.index', ['type' => $type]) }}" 
+                                       class="block px-3 py-2 hover:bg-gray-100 rounded">{{ $type }}</a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
 
@@ -102,19 +105,19 @@
                 <!-- Hero Content Responsive -->
                 <div class="flex flex-col md:block mt-8 md:mt-0 relative">
                     <!-- Image -->
-                    <img class="relative md:absolute rounded-[20px] md:rounded-[29.273px] w-full max-w-[90%] md:w-[45%] lg:w-[592px] h-auto md:h-[380px] md:top-[120px] md:mt-[50px] md:left-10 shadow-lg md:shadow-none mx-auto z-10"
+                    <img class="relative md:absolute rounded-[20px] md:rounded-[29.273px] w-full max-w-[90%] md:w-[45%] lg:w-[592px] h-auto md:h-[380px] md:top-[150px] md:mt-[50px] md:left-10 shadow-lg md:shadow-none mx-auto z-10"
                         src="{{ asset('h2h.jpeg') }}" alt="">
 
                     <!-- Text: Transaksi Aman -->
                     <div
-                        class="relative md:absolute md:right-10 md:top-[180px] md:mt-[60px] text-basetext font-bold text-3xl md:text-[48px] leading-tight md:leading-[56px] flex flex-col gap-2 md:gap-6 text-center md:text-left mt-10 md:mt-0 z-20">
+                        class="relative md:absolute md:right-10 md:top-[210px] md:mt-[60px] text-basetext font-bold text-3xl md:text-[48px] leading-tight md:leading-[56px] flex flex-col gap-2 md:gap-6 text-center md:text-left mt-10 md:mt-0 z-20">
                         <h1>Transaksi aman,</h1>
                         <span>nonton konser nyaman</span>
                     </div>
 
                     <!-- Text: Lorem Ipsum -->
                     <div
-                        class="relative md:absolute md:left-[55%] lg:left-[700px] md:bottom-10 md:top-[350px] md:mt-[60px] w-full md:w-[40%] lg:w-[550px] text-basetext font-normal text-sm md:text-[18px] leading-relaxed md:leading-[28px] text-center md:text-left mt-6 md:mt-0 px-4 md:px-0 z-20">
+                        class="relative md:absolute md:left-[55%] lg:left-[700px] md:bottom-10 md:top-[380px] md:mt-[60px] w-full md:w-[40%] lg:w-[550px] text-basetext font-normal text-sm md:text-[18px] leading-relaxed md:leading-[28px] text-center md:text-left mt-6 md:mt-0 px-4 md:px-0 z-20">
                         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                     </div>
 
