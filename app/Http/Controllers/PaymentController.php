@@ -23,14 +23,15 @@ class PaymentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'id_price' => 'required|exists:concert_price,id_price',
+            'quantity' => 'required|integer|min:1',
             'payment_method' => 'required|string',
             'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $price = Concert_Price::findOrFail($request->id_price);
         // cek quota
-        if ($price->sold >= $price->quota) {
-            return back()->withErrors('Ticket sold out.');
+        if (($price->sold + $request->quantity) > $price->quota) {
+            return back()->withErrors('Not enough tickets available. Remaining: ' . ($price->quota - $price->sold));
         }
 
         // simpan file
@@ -46,7 +47,8 @@ class PaymentController extends Controller
             'id_price' => $price->id_price,
             'name' => $request->name,
             'payment_method' => $request->payment_method,
-            'total_price' => $price->ticket_price,
+            'quantity' => $request->quantity,
+            'total_price' => $price->ticket_price * $request->quantity,
             'status' => 'pending',
             'payment_proof' => $proofName,
         ]);

@@ -170,34 +170,7 @@
 
     <script>
         // Show SweetAlert for session messages
-        @if(session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: '{{ session('success') }}',
-                confirmButtonColor: '#22c55e',
-                timer: 3000,
-                timerProgressBar: true,
-            });
-        @endif
 
-        @if(session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: '{{ session('error') }}',
-                confirmButtonColor: '#ef4444',
-            });
-        @endif
-
-        @if(session('info'))
-            Swal.fire({
-                icon: 'info',
-                title: 'Information',
-                text: '{{ session('info') }}',
-                confirmButtonColor: '#3b82f6',
-            });
-        @endif
 
         function showPaymentProof(imageUrl) {
             document.getElementById('paymentProofImage').src = imageUrl;

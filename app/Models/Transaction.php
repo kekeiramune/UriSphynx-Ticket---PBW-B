@@ -21,7 +21,8 @@ class Transaction extends Model
         'payment_proof',
         'approved_at',
         'approved_by',
-        'admin_notes'
+        'admin_notes',
+        'quantity'
     ];
 
     protected $casts = [

@@ -34,21 +34,28 @@ Route::get('/category', [CategoryController::class, 'index'])
     ->name('category.index');
 
 Route::get('/', function () {
-    $concerts = Concert::with('category')->get();
     // Auto-update status for landing page
-    foreach ($concerts as $concert) {
-        if (\Carbon\Carbon::parse($concert->concert_time)->isPast() && $concert->status_concert !== 'Finished') {
-            $concert->update(['status_concert' => 'Finished']);
-        }
+    $concertsToUpdate = Concert::where('status_concert', '!=', 'Finished')
+        ->where('concert_time', '<', \Carbon\Carbon::now())
+        ->get();
+
+    foreach ($concertsToUpdate as $concert) {
+        $concert->update(['status_concert' => 'Finished']);
     }
-    // Re-fetch or refresh fetching isn't strictly necessary since update() doesn't mutate the instance in-place fully for all fields in all versions, 
-    // but the status_concert attribute on $concert should be updated by the update() call in standard Eloquent.
-    // However, to be extra safe and ensure view gets clean data:
-    $concerts = Concert::with('category')->get();
+
+    $allConcerts = Concert::with('category')->orderBy('id_concert', 'desc')->get();
+    $concerts = $allConcerts->take(4);
+    $hasMore = $allConcerts->count() > 4;
 
     $category = Category::all();
-    return view('welcome', compact('concerts', 'category'));
-});
+    return view('welcome', compact('concerts', 'category', 'hasMore'));
+})->name('home');
+
+Route::get('/concerts', function () {
+    $concerts = Concert::with('category')->orderBy('id_concert', 'desc')->get();
+    $category = Category::all();
+    return view('all-concerts', compact('concerts', 'category'));
+})->name('concerts.all');
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {

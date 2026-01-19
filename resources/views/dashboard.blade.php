@@ -77,8 +77,7 @@
 
                             <div x-show="openProfile" x-transition @click.away="openProfile = false"
                                 class="absolute right-0 bg-white shadow-lg rounded-lg mt-2 p-3 w-44 z-50 origin-top">
-                                <a href="#" class=""></a>
-                                <a href="#" class="block px-3 py-2 hover:bg-gray-100 rounded">Settings</a>
+                                <a href="{{ route('profile.edit') }}" class="block px-3 py-2 hover:bg-gray-100 rounded">Profile & Settings</a>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"

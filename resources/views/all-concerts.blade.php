@@ -1,10 +1,9 @@
 <x-guest-layout>
     <div x-data="{ notifOpen: false }" class="overflow-x-hidden">
 
-        <!-- HERO SECTION -->
+        <!-- NAVBAR -->
         <div class="w-full flex justify-center px-4">
-            <div class="max-w-[1900px] w-full bg-secondary rounded-[40px] lg:rounded-[70px] shadow-lg p-6 lg:p-12">
-
+             <div class="relative max-w-[1900px] w-full bg-secondary rounded-[40px] lg:rounded-[70px] shadow-lg p-6 lg:p-12">
                 <x-navbar>
                     <!-- LEFT MENU -->
                     <a class="hidden md:block hover:text-white hover:bg-[#8faeba] px-4 py-1 rounded-full transition"
@@ -107,57 +106,17 @@
                     </x-slot:search>
                 </x-navbar>
 
-                <!-- HERO CONTENT -->
-                <div class="mt-16 flex flex-col lg:flex-row items-center gap-12">
-                    <img src="{{ asset('h2h.jpeg') }}" class="w-full max-w-md lg:max-w-[600px] rounded-2xl">
-
-                    <div class="text-center lg:text-left max-w-xl">
-                        <h1 class="text-3xl lg:text-5xl font-bold text-basetext">
-                            Secure payments,<br>Better concert experiences
-                        </h1>
-
-                        <p class="mt-6 text-basetext leading-relaxed">
-                            A reliable ticketing platform designed for a smooth concert experience.
-                        </p>
-
-                        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <a href="#concerts" class="bg-white px-6 py-3 rounded-full shadow hover:bg-gray-100 transition">Get Started</a>
-                            <a href="{{ route('login') }}"
-                                class="bg-customButton px-6 py-3 rounded-full text-white flex items-center gap-2">
-                                Sign In Now <img src="{{ asset('arrow1.svg') }}" class="w-3">
-                            </a>
-                        </div>
-                    </div>
+                <!-- HEADER TITLE -->
+                <div class="text-center mt-24 mb-6">
+                    <h1 class="text-4xl font-bold">All Concerts</h1>
+                    <p class="mt-4 text-basetext">
+                        Explore our complete collection of upcoming events.
+                    </p>
                 </div>
-
-            </div>
+             </div>
         </div>
 
-        <!-- CONTENT -->
-        <section id="concerts" class="text-center mt-24 px-6">
-            <h1 class="text-4xl font-bold">UriSphynx Ticket</h1>
-            <p class="mt-6 max-w-3xl mx-auto text-basetext">
-                Discover concert events from various artists, with clear details and easy access to ticket information.
-            </p>
-        </section>
-
         <x-landing.concertcard :concerts="$concerts" />
-
-        @if(isset($hasMore) && $hasMore)
-            <div class="flex justify-center mt-8">
-                <a href="{{ route('concerts.all') }}" class="bg-[#707FDD] hover:bg-[#5f6bc9] text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
-                    See More Concerts
-                </a>
-            </div>
-        @endif
-
-        <!-- SEATING -->
-        <section id="seating" class="mt-24 text-center">
-            <h1 class="text-4xl font-bold mb-8">Seating Plan</h1>
-            <img src="{{ asset('seating.jpg') }}" class="mx-auto w-full max-w-5xl h-auto">
-        </section>
-
-        <x-landing.steps />
 
         <x-footer />
 
