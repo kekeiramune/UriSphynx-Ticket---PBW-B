@@ -67,17 +67,9 @@
                 </div>
 
                 <!-- Success/Error Messages -->
-                @if(session('success'))
-                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
-                        {{ session('success') }}
-                    </div>
-                @endif
 
-                @if(session('error'))
-                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
-                        {{ session('error') }}
-                    </div>
-                @endif
+
+
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">

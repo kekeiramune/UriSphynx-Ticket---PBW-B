@@ -88,16 +88,5 @@
             })
         }
     </script>
-    @if (session('success'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                icon: 'success',
-                title: 'Saved!',
-                text: '{{ session('success') }}',
-                confirmButtonColor: '#5A6ACF',
-            });
-        });
-    </script>
-    @endif
+
 </x-app-layout>

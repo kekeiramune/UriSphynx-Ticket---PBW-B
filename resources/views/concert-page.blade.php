@@ -102,39 +102,24 @@
                     </x-slot:search>
                 </x-navbar>
 
-                <!-- Hero Content Responsive -->
-                <div class="flex flex-col md:block mt-8 md:mt-0 relative">
-                    <!-- Image -->
-                    <img class="relative md:absolute rounded-[20px] md:rounded-[29.273px] w-full max-w-[90%] md:w-[45%] lg:w-[592px] h-auto md:h-[380px] md:top-[150px] md:mt-[50px] md:left-10 shadow-lg md:shadow-none mx-auto z-10"
-                        src="{{ asset('h2h.jpeg') }}" alt="">
+                <!-- HERO CONTENT -->
+                <div class="mt-16 flex flex-col lg:flex-row items-center gap-12">
+                    <img src="{{ asset('h2h.jpeg') }}" class="w-full max-w-md lg:max-w-[600px] rounded-2xl">
 
-                    <!-- Text: Transaksi Aman -->
-                    <div
-                        class="relative md:absolute md:right-10 md:top-[210px] md:mt-[60px] text-basetext font-bold text-3xl md:text-[48px] leading-tight md:leading-[56px] flex flex-col gap-2 md:gap-6 text-center md:text-left mt-10 md:mt-0 z-20">
-                        <h1>Transaksi aman,</h1>
-                        <span>nonton konser nyaman</span>
-                    </div>
+                    <div class="text-center lg:text-left max-w-xl">
+                        <h1 class="text-3xl lg:text-5xl font-bold text-basetext">
+                            Secure payments,<br>Better concert experiences
+                        </h1>
 
-                    <!-- Text: Lorem Ipsum -->
-                    <div
-                        class="relative md:absolute md:left-[55%] lg:left-[700px] md:bottom-10 md:top-[380px] md:mt-[60px] w-full md:w-[40%] lg:w-[550px] text-basetext font-normal text-sm md:text-[18px] leading-relaxed md:leading-[28px] text-center md:text-left mt-6 md:mt-0 px-4 md:px-0 z-20">
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    </div>
+                        <p class="mt-6 text-basetext leading-relaxed">
+                            A reliable ticketing platform designed for a smooth concert experience.
+                        </p>
 
-                    <!-- Buttons -->
-                    <div
-                        class="relative md:absolute bottom-0 md:bottom-10 md:right-[200px] flex flex-col md:flex-row gap-4 justify-center items-center mt-10 mb-5 md:mt-0 md:mb-0 z-30">
-                        <div class="w-full md:w-auto px-4 md:px-0">
-                            <button
-                                class="w-full md:w-auto bg-white hover:bg-customHover text-blacktext font-semibold py-3 px-6 rounded-[36.55px] shadow-md border border-gray-100">
-                                Get Started
-                            </button>
-                        </div>
-                        <div class="w-full md:w-auto px-4 md:px-0">
+                        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button class="bg-white px-6 py-3 rounded-full shadow">Get Started</button>
                             <a href="{{ route('login') }}"
-                                class="w-full md:w-auto bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center justify-center gap-2 shadow-md">
-                                Sign in Now
-                                <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]" alt="icon">
+                                class="bg-customButton px-6 py-3 rounded-full text-white flex items-center gap-2">
+                                Sign In Now <img src="{{ asset('arrow1.svg') }}" class="w-3">
                             </a>
                         </div>
                     </div>

@@ -26,7 +26,10 @@ class UserDashboardController extends Controller
                 ->whereHas('concert', function($query) {
                     $query->where('concert_time', '>', now());
                 })
-                ->get();
+                ->get()
+                ->sortBy(function($ticket) {
+                    return $ticket->concert->concert_time;
+                });
 
             // Get purchase history (all transactions)
             $purchaseHistory = Transaction::with(['concert', 'concertPrice.seating'])

@@ -2,7 +2,7 @@
     <div class="min-h-screen flex items-center justify-center bg-black/80 py-10 px-4">
         <div class="bg-white w-full max-w-3xl rounded-2xl p-6 md:p-10 shadow-xl">
 
-            <h1 class="text-2xl md:text-3xl font-bold mb-8">Form Pembayaran</h1>
+            <h1 class="text-2xl md:text-3xl font-bold mb-8">Payment Form</h1>
 
             <form method="POST" action="{{ route('payment.store', $concert->id_concert) }}"
                 enctype="multipart/form-data">
@@ -35,6 +35,14 @@
                 <div class="mb-5">
                     <label class="block text-sm font-semibold mb-2">PRICE</label>
                     <input type="text" id="priceInput" readonly class="w-full border rounded-lg px-4 py-3 bg-gray-100">
+                </div>
+
+                <!-- QUANTITY -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold mb-2">QUANTITY</label>
+                    <input type="number" name="quantity" id="quantityInput" value="1" min="1" required 
+                        onchange="updatePrice()" onkeyup="updatePrice()"
+                        class="w-full border rounded-lg px-4 py-3 focus:ring focus:ring-blue-300">
                 </div>
 
                 <!-- TOTAL -->
@@ -86,6 +94,7 @@
         function updatePrice() {
             const select = document.getElementById('ticketSelect');
             const price = select.options[select.selectedIndex].dataset.price;
+            const quantity = document.getElementById('quantityInput').value || 1;
 
             if (!price) {
                 document.getElementById('priceInput').value = '';
@@ -93,10 +102,12 @@
                 return;
             }
 
-            const formatted = new Intl.NumberFormat('id-ID').format(price);
+            const total = price * quantity;
+            const formattedPrice = new Intl.NumberFormat('id-ID').format(price);
+            const formattedTotal = new Intl.NumberFormat('id-ID').format(total);
 
-            document.getElementById('priceInput').value = 'Rp ' + formatted;
-            document.getElementById('totalInput').value = 'Rp ' + formatted;
+            document.getElementById('priceInput').value = 'Rp ' + formattedPrice;
+            document.getElementById('totalInput').value = 'Rp ' + formattedTotal;
         }
 
         document.addEventListener('DOMContentLoaded', updatePrice);
