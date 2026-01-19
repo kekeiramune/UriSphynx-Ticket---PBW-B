@@ -40,7 +40,7 @@
 
                 <p class="flex-1 px-4 py-6 text-gray-500 uppercase">Others</p>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 text-[#707FDD]">
+                <a href="{{ route('admin.accountmanage') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 text-[#707FDD]">
                     <img src="{{ asset('profadmin.svg') }}"><span>Accounts</span>
                 </a>
 

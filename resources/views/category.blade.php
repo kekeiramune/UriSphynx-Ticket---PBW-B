@@ -104,30 +104,28 @@
 
             </x-navbar>
 
-            <!-- HERO SECTION IMAGE + TEXT -->
-            <img class="absolute rounded-[29.273px] w-[592px] h-[380px] top-[150px] mt-[50px] left-10"
-                 src="{{ asset('h2h.jpeg') }}" alt="">
+            <!-- HERO CONTENT -->
+                <div class="mt-16 flex flex-col lg:flex-row items-center gap-12">
+                    <img src="{{ asset('h2h.jpeg') }}" class="w-full max-w-md lg:max-w-[600px] rounded-2xl">
 
-            <div class="absolute right-10 top-[210px] mt-[60px] text-basetext font-bold text-[48px] leading-[56px] flex flex-col gap-6">
-                <h1>Transaksi aman,</h1>
-                <span>nonton konser nyaman</span>
-            </div>
+                    <div class="text-center lg:text-left max-w-xl">
+                        <h1 class="text-3xl lg:text-5xl font-bold text-basetext">
+                            Secure payments,<br>Better concert experiences
+                        </h1>
 
-            <div class="absolute left-[700px] top-[380px] mt-[60px] w-[550px] text-basetext text-[18px] leading-[28px]">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit…</p>
-            </div>
+                        <p class="mt-6 text-basetext leading-relaxed">
+                            A reliable ticketing platform designed for a smooth concert experience.
+                        </p>
 
-            <!-- BUTTONS -->
-            <div class="absolute bottom-10 right-[200px] flex gap-4">
-                <button class="bg-white hover:bg-customHover text-blacktext font-semibold py-3 px-6 rounded-[36.55px] shadow-md">
-                    Get Started
-                </button>
-
-                <button class="bg-customButton hover:bg-customHover text-white font-semibold py-3 px-6 rounded-[36.55px] flex items-center gap-2 shadow-md">
-                    <a href="{{ route('login') }}">Sign in Now</a>
-                    <img src="{{ asset('arrow1.svg') }}" class="w-[13.5px] h-[12.691px]">
-                </button>
-            </div>
+                        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button class="bg-white px-6 py-3 rounded-full shadow">Get Started</button>
+                            <a href="{{ route('login') }}"
+                                class="bg-customButton px-6 py-3 rounded-full text-white flex items-center gap-2">
+                                Sign In Now <img src="{{ asset('arrow1.svg') }}" class="w-3">
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
         </div>
     </div>

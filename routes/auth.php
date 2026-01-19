@@ -13,11 +13,7 @@ use App\Models\Concert;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $concerts = Concert::with('category')->get();
-    $category = Category::all();
-    return view('welcome', compact('concerts', 'category'));
-})->name('home');
+
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
