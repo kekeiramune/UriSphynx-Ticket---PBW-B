@@ -159,7 +159,7 @@
                 <!-- Most Ticket Sales Section -->
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <h2 class="text-xl font-bold text-[#273240] mb-2">Most Ticket Sales</h2>
-                    <p class="text-gray-400 text-sm mb-6">Adipiscing elit, sed do eiusmod tempor</p>
+                    <p class="text-gray-400 text-sm mb-6">The top performer in ticket sales this period</p>
                     <div class="space-y-4">
                         @php
                             $gradients = [
